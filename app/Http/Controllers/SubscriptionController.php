@@ -52,7 +52,8 @@ class SubscriptionController extends Controller
             'type' => 'required|string',
             'file' => 'nullable|file|mimes:pdf,jpg,png,doc,docx',
             'emails' => 'required|array',
-        'emails.*' => 'email'
+        'emails.*' => 'email',
+        'site_id' => 'required'
 
         ]);
 
@@ -132,7 +133,7 @@ if ($request->filled('new_emails')) {
         $sub = Subscription::findOrFail($id);
 
         $emails = Email::all();
-        
+
 
 
         return view('Admin.subscriptions.edit', compact('emails', 'sub'));

@@ -27,28 +27,28 @@ class HomeController extends Controller
      public function index()
     {
 
-        $emtotalor = (int) Materiel::where('ordi', "Ordinateur")->count();
-        $emtotalim = (int) Materiel::where('ordi', "Imprimante")->count();
-        $emtotalsc = (int) Materiel::where('ordi', "Scanner")->count();
-        $emtotalorper = (int) Materiel::where('ordi', "Ordinateur")->where('personnel_id')->count();
-        $ematotalor = (int) Maintenances::whereStatus('En Reparation')->count();
+        // $emtotalor = (int) Materiel::where('ordi', "Ordinateur")->count();
+        // $emtotalim = (int) Materiel::where('ordi', "Imprimante")->count();
+        // $emtotalsc = (int) Materiel::where('ordi', "Scanner")->count();
+        // $emtotalorper = (int) Materiel::where('ordi', "Ordinateur")->where('personnel_id')->count();
+        // $ematotalor = (int) Maintenances::whereStatus('En Reparation')->count();
 
-        $sites = Site::select('id', 'nom')
-        ->withCount([
-            'materiels as total_ordinateurs' => function ($q) {
-                $q->where('ordi', 'Ordinateur');
-            },
-            'materiels as total_scanners' => function ($q) {
-                $q->where('ordi', 'Scanner');
-            },
-            'materiels as total_imprimantes' => function ($q) {
-                $q->where('ordi', 'Imprimante');
-            },
-        ])
-        ->orderBy('nom')
-        ->get();
+        // $sites = Site::select('id', 'nom')
+        // ->withCount([
+        //     'materiels as total_ordinateurs' => function ($q) {
+        //         $q->where('ordi', 'Ordinateur');
+        //     },
+        //     'materiels as total_scanners' => function ($q) {
+        //         $q->where('ordi', 'Scanner');
+        //     },
+        //     'materiels as total_imprimantes' => function ($q) {
+        //         $q->where('ordi', 'Imprimante');
+        //     },
+        // ])
+        // ->orderBy('nom')
+        // ->get();
 
-        return view('dashboard', compact('emtotalor','emtotalim','emtotalorper', 'ematotalor','emtotalsc','sites'));
+        return view('dashboard');
     }
 
     public function show($id)

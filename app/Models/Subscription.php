@@ -32,7 +32,8 @@ class Subscription extends Model
         'remind_before_days',
         'type',
         'file_path',
-        'user_id'
+        'user_id',
+        'site_id'
     ];
 
 
@@ -70,6 +71,13 @@ class Subscription extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function site()
+    {
+        return $this->belongsTo(Site::class, 'site_id');
+    }
+
+
     public function emails()
 {
     return $this->belongsToMany(Email::class, 'email_subscriptions');
