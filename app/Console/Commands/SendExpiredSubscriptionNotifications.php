@@ -37,7 +37,7 @@ class SendExpiredSubscriptionNotifications extends Command
             // 🕒 Marque l’abonnement comme expiré
             $sub->update([
                 'status' => false,
-                'position' => true,
+               
             ]);
 
             $siteName = $sub->site ? $sub->site->nom : $sub->site_id;
