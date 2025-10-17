@@ -53,6 +53,7 @@
                                     <th>Type Abbn</th>
                                     <th>Status</th>
                                     <th>Position</th>
+                                    <th>Mails</th>
 									<th>Ajouter le</th>
                                     <th>Par</th>
                                     <th class="datatable-nosort">Action</th>
@@ -64,7 +65,11 @@
 									<td class="table-plus">{{ $sub->code }}</td>
                                     <td class="table-plus">{{ $sub->subscription_date->format('d/m/Y') }}</td>
                                     <td class="table-plus">{{ $sub->expiration_date->format('d/m/Y') }}</td>
+
                                     <td>
+                                    {{ $sub->type }}
+                </td>
+                <td>
     {{-- Statut d’abonnement --}}
     @if($sub->status)
         <span class="badge bg-success">🟢 Actif</span>
@@ -99,9 +104,6 @@
     </form>
 </td>
 
-                                    <td>
-                                    {{ $sub->type }}
-                </td>
 									<td>{{ $sub->created_at }}</td>
                                     <td>{{ $sub->user->name }}</td>
 
