@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Email;
+use App\Models\Site;
 use App\Models\Subscription;
 use Doctrine\Inflector\Rules\Substitution;
 use Illuminate\Http\Request;
@@ -28,9 +29,9 @@ class SubscriptionController extends Controller
      */
     public function create()
     {
-
+        $sites = Site::all();
         $emails = Email::all();
-        return view('Admin.subscriptions.create',compact('emails'));
+        return view('Admin.subscriptions.create',compact('emails', 'sites'));
 
     }
 
@@ -133,10 +134,10 @@ if ($request->filled('new_emails')) {
         $sub = Subscription::findOrFail($id);
 
         $emails = Email::all();
+        $sites = Site::all();
 
 
-
-        return view('Admin.subscriptions.edit', compact('emails', 'sub'));
+        return view('Admin.subscriptions.edit', compact('emails', 'sub' ,'sites'));
 
     }
 
@@ -160,7 +161,8 @@ if ($request->filled('new_emails')) {
         'type' => 'required|string',
         'file' => 'nullable|file|mimes:pdf,jpg,png,doc,docx',
         'emails' => 'required|array',
-        'emails.*' => 'email'
+        'emails.*' => 'email',
+        'site_id' => 'required'
     ]);
 
     if ($request->hasFile('file')) {

@@ -5,8 +5,12 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Subscription;
 use App\Mail\SubscriptionReminderMail;
+use App\Mail\AdminReminderMail;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
+
+
+
 
 class SendSubscriptionReminders extends Command
 {
@@ -17,31 +21,52 @@ class SendSubscriptionReminders extends Command
     {
         $today = Carbon::today();
 
-        $subscriptions = Subscription::all();
+        // Charge les abonnements avec leurs relations
+        $subscriptions = Subscription::with(['emails', 'user', 'site'])->get();
+
+        // Récupère les emails d’admins depuis le .env
+        $adminEmails = array_filter(array_map('trim', explode(',', env('ADMIN_EMAILS', ''))));
 
         foreach ($subscriptions as $sub) {
+
+            // Calcul de la date de rappel
             $remindDate = Carbon::parse($sub->expiration_date)->subDays($sub->remind_before_days);
 
             if ($today->equalTo($remindDate)) {
-                 foreach ($sub->emails as $email) {
-                     Mail::to($email->email)->send(new SubscriptionReminderMail($sub));
-                 }
 
-               // foreach ($sub->emails as $email) {
-                //    Mail::to($email->email)->send(new SubscriptionReminderMail($sub));
+                $daysLeft = Carbon::parse($sub->expiration_date)->diffInDays($today);
 
-                    // Pause d’1 seconde pour éviter la limite
-                //    sleep(1);
-               // }
+                // 1️⃣ Envoi aux emails liés à l’abonnement
+                foreach ($sub->emails as $email) {
+                    Mail::to($email->email)
+                        ->queue(new SubscriptionReminderMail($sub));
+                }
+
+                // 2️⃣ Envoi à l’utilisateur créateur
+                if ($sub->user && $sub->user->email) {
+                    Mail::to($sub->user->email)
+                        ->queue(new AdminReminderMail($sub, $daysLeft));
+                }
+
+                // 3️⃣ Envoi aux administrateurs définis dans .env
+                foreach ($adminEmails as $adminEmail) {
+                    Mail::to($adminEmail)
+                        ->queue(new AdminReminderMail($sub, $daysLeft));
+                }
+
+                $siteName = $sub->site ? $sub->site->nom : $sub->site_id;
+
+                $this->info("Rappels envoyés pour {$sub->name} (Site: {$siteName}) " .
+                    "à : " . $sub->emails->pluck('email')->implode(', ') .
+                    ($sub->user ? " + user {$sub->user->email}" : '') .
+                    (!empty($adminEmails) ? " + admins " . implode(', ', $adminEmails) : '')
+                );
 
 
-                $this->info("Rappels envoyés pour {$sub->name} à " . $sub->emails->pluck('email')->implode(', '));
             }
         }
 
-
-
-
         return Command::SUCCESS;
     }
+
 }

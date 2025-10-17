@@ -168,6 +168,21 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label>Site :</label>
+            <select name="site_id" class="selectpicker form-control">
+                @foreach(\App\Models\Site::all() as $site)
+                    <option value="{{ $site->id }}"
+                        @if(isset($sub) && $sub->site_id == $site->id) selected @endif>
+                        {{ $site->nom ?? $site->id }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+</div>
 
 
 <div class="row">
