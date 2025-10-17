@@ -34,7 +34,7 @@ class SubscriptionReminderMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: "Rappel : Abonnement {$this->subscription->name} arrive à expiration",
+            subject: "Rappel : Abonnement  {$this->subscription->name} est expiré ",
         );
     }
 
@@ -46,7 +46,7 @@ class SubscriptionReminderMail extends Mailable
     public function content()
     {
         return new Content(
-            markdown: 'emails.reminder',
+            markdown: 'emails.subscription_expired',
         );
     }
 

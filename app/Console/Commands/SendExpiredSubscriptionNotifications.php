@@ -20,7 +20,7 @@ class SendExpiredSubscriptionNotifications extends Command
 
         // 🔍 On récupère les abonnements expirés mais encore "actifs"
         $expiredSubs = Subscription::where('expiration_date', '<', $today)
-            ->where('status', true)
+            //->where('status', true)
             ->where('position', false)
             ->with(['user', 'emails', 'site'])
             ->get();
@@ -37,7 +37,7 @@ class SendExpiredSubscriptionNotifications extends Command
             // 🕒 Marque l’abonnement comme expiré
             $sub->update([
                 'status' => false,
-               
+
             ]);
 
             $siteName = $sub->site ? $sub->site->nom : $sub->site_id;

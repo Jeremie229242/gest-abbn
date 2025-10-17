@@ -201,6 +201,19 @@ if ($request->filled('new_emails')) {
 }
 
 
+public function togglePosition(Subscription $subscription)
+{
+    $subscription->position = !$subscription->position; // Inverse l’état
+    $subscription->save();
+
+    $message = $subscription->position
+        ? 'Les rappels ont été arrêtés pour cet abonnement.'
+        : 'Les rappels ont été réactivés pour cet abonnement.';
+
+    return back()->with('success', $message);
+}
+
+
     /**
      * Remove the specified resource from storage.
      *

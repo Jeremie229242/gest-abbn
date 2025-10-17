@@ -51,6 +51,8 @@
                                     <th>Date Abbn</th>
                                     <th>Date exp</th>
                                     <th>Type Abbn</th>
+                                    <th>Status</th>
+                                    <th>Position</th>
 									<th>Ajouter le</th>
                                     <th>Par</th>
                                     <th class="datatable-nosort">Action</th>
@@ -62,6 +64,41 @@
 									<td class="table-plus">{{ $sub->code }}</td>
                                     <td class="table-plus">{{ $sub->subscription_date->format('d/m/Y') }}</td>
                                     <td class="table-plus">{{ $sub->expiration_date->format('d/m/Y') }}</td>
+                                    <td>
+    {{-- Statut d’abonnement --}}
+    @if($sub->status)
+        <span class="badge bg-success">🟢 Actif</span>
+    @else
+        <span class="badge bg-danger">🔴 Expiré</span>
+    @endif
+</td>
+
+<td>
+    {{-- Envoi de mails --}}
+    @if($sub->position)
+        <span class="badge bg-secondary">⏸️ Envoi stoppé</span>
+    @else
+        <span class="badge bg-info">📧 Envoi actif</span>
+    @endif
+</td>
+
+<td>
+    {{-- Bouton pour changer position --}}
+    <form action="{{ route('Admin.subscriptions.toggle-position', $sub->id) }}" method="POST">
+        @csrf
+        @method('PATCH')
+        @if($sub->position)
+            <button type="submit" class="btn btn-sm btn-success">
+                🔄 Relancer les envois
+            </button>
+        @else
+            <button type="submit" class="btn btn-sm btn-warning">
+                ⏸️ Stopper les envois
+            </button>
+        @endif
+    </form>
+</td>
+
                                     <td>
                                     {{ $sub->type }}
                 </td>

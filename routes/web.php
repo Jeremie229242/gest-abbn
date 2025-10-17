@@ -46,6 +46,9 @@ Route::group([
     Route::resource('e-mails', EmailController::class);
     Route::resource('subscriptions', SubscriptionController::class);
     Route::get('subscriptions/{subscription}/download', [SubscriptionController::class, 'download'])->name('subscriptions.download');
+    Route::patch('/subscriptions/{subscription}/toggle-position', [SubscriptionController::class, 'togglePosition'])
+    ->name('subscriptions.toggle-position');
+
 
     Route::put('maintenances/{maintenance}/approve', [MaintenancesController::class, 'approve'])->name('maintenances.approve');
     Route::get('/rapport/{id}', [HomeController::class, 'show'])->name('sites.rapport');
