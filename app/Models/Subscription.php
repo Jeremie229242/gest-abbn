@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class Subscription extends Model
 {
-    use HasFactory;
+   
 
 
     use HasFactory;
@@ -76,7 +76,7 @@ class Subscription extends Model
     {
         return $this->belongsTo(Site::class, 'site_id');
     }
-   
+
 
 
     public function emails()

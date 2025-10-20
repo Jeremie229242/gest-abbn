@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Prestation;
+use App\Models\Site;
 use Illuminate\Http\Request;
 
 class PrestationController extends Controller
@@ -25,7 +26,9 @@ class PrestationController extends Controller
      */
     public function create()
     {
-        //
+
+        $sites = Site::all();
+        return view('Admin.prestations.create',compact('sites'));
     }
 
     /**
@@ -36,7 +39,34 @@ class PrestationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+
+            'name' => 'required|string',
+
+            'pest_date' => 'required|date',
+            'duration_days' => 'required|integer|min:1',
+            'montant' => 'nullable|integer|min:1',
+            'type' => 'required|string',
+            'patr' => 'required',
+
+            'file' => 'nullable|file|mimes:pdf,jpg,png,doc,docx',
+        'site_id' => 'required'
+
+        ]);
+
+        if ($request->hasFile('file')) {
+            $path = $request->file('file')->store('uploads', 'public');
+            $validated['file_path'] = $path;
+        }
+
+        $validated['user_id'] = auth()->id();
+
+       // Création de l’abonnement
+    $prest = Prestation::create($validated);
+    return redirect()->route('Admin.prestations.index')
+    ->with('success', 'Prestation ajouté avec succès.');
+
+
     }
 
     /**
