@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Mail;
-
 use App\Models\Subscription;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -10,9 +9,9 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class AdminReminderMail extends Mailable
+class AdminExpiredMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
     public $subscription;
     public $daysLeft;
     /**
@@ -20,10 +19,10 @@ class AdminReminderMail extends Mailable
      *
      * @return void
      */
-    public function __construct(Subscription $subscription, $daysLeft)
+    public function __construct(Subscription $subscription)
     {
         $this->subscription = $subscription;
-        $this->daysLeft = $daysLeft;
+       // $this->daysLeft = $daysLeft;
     }
 
     /**
@@ -31,24 +30,28 @@ class AdminReminderMail extends Mailable
      *
      * @return \Illuminate\Mail\Mailables\Envelope
      */
-    public function envelope()
+    // public function envelope()
+    // {
+    //     return new Envelope(
+    //         subject: 'Admin Expired Mail',
+    //     );
+    // }
+    public function build()
     {
-        return new Envelope(
-            subject: '🔔 Rappel : Abonnement en fin de validité',
-        );
+        return $this->subject('⚠️ Abonnement expiré - ' . $this->subscription->name)
+                    ->view('emails.admin_expired'); // 🔹 Ton template HTML
     }
-
     /**
      * Get the message content definition.
      *
      * @return \Illuminate\Mail\Mailables\Content
      */
-    public function content()
-    {
-        return new Content(
-            markdown: 'emails.admin_expired',
-        );
-    }
+    // public function content()
+    // {
+    //     return new Content(
+    //         markdown: 'emails.admin_expired',
+    //     );
+    // }
 
     /**
      * Get the attachments for the message.

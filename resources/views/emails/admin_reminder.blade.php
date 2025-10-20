@@ -1,12 +1,17 @@
-<x-mail::message>
-# Introduction
 
-The body of your message.
+@component('mail::message')
+# Rappel d’abonnement de {{ $subscription->site->nom }}
 
-<x-mail::button :url="''">
-Button Text
-</x-mail::button>
+Bonjour,
 
-Thanks,<br>
-{{ config('app.name') }}
-</x-mail::message>
+L'abonnement de **{{ $subscription->site->nom }}** concernant  **{{ $subscription->type }}** lié à **{{ $subscription->entity }}** va expirer le **{{ $subscription->expiration_date->format('d/m/Y') }}**.
+
+Merci de penser à le renouveler.
+
+@component('mail::button', ['url' => url('/subscriptions/'.$subscription->id)])
+Voir l’abonnement
+@endcomponent
+
+Cordialement,
+**L’équipe Gestion Abonnements**
+@endcomponent

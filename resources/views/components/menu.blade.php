@@ -36,40 +36,22 @@
     </ul>
 </li>
 
-<li class="dropdown {{ isActiveRoute(['Admin.sites', 'Admin.personnels']) ? 'menu-open' : '' }}">
-    <a href="javascript:;" class="dropdown-toggle {{ isActiveRoute(['Admin.sites', 'Admin.personnels']) }}">
-        <span class="micon dw dw-library"></span><span class="mtext">Sites & Personnels</span>
+
+
+<li>
+<a href="{{ route('Admin.sites.index') }}" class="dropdown-toggle no-arrow {{ isActiveRoute('Admin.sites.index') }}">
+        <span class="micon dw dw-apartment"></span><span class="mtext">Gestion Société</span>
     </a>
-    <ul class="submenu">
-        <li>
-            <a class="nav-link {{ isActiveRoute('Admin.sites.index') }}" href="{{ route('Admin.sites.index') }}">
-                Sites
-            </a>
         </li>
-        <li>
-            <a class="nav-link {{ isActiveRoute('Admin.personnels.index') }}" href="{{ route('Admin.personnels.index') }}">
-                Personnels
-            </a>
-        </li>
-    </ul>
+
+<li>
+    <a href="{{ route('Admin.prestations.index') }}" class="dropdown-toggle no-arrow {{ isActiveRoute('Admin.prestations.index') }}">
+        <span class="micon dw dw-apartment"></span><span class="mtext">Gestion Prestations</span>
+    </a>
 </li>
 
 
-                    <li class="dropdown {{ isActiveRoute('Admin.materiels', 'menu-open') }}">
-    <a href="javascript:;" class="dropdown-toggle {{ isActiveRoute('Admin.materiels', 'active') }}">
-        <span class="micon dw dw-apartment"></span><span class="mtext">Gestion Matériels</span>
-    </a>
-    <ul class="submenu">
-        <li>
-            <a class="nav-link {{ isActiveRoute('Admin.materiels.index') }}"
-               href="{{ route('Admin.materiels.index') }}">Materiels</a>
-        </li>
-        <li>
-            <a class="nav-link {{ isActiveRoute('Admin.maintenances.index') }}"
-               href="{{ route('Admin.maintenances.index') }}">Maintenances</a>
-        </li>
-    </ul>
-</li>
+
 <li>
     <a href="{{ route('Admin.e-mails.index') }}" class="dropdown-toggle no-arrow {{ isActiveRoute('Admin.e-mails.index') }}">
         <span class="micon dw dw-paint-brush"></span><span class="mtext">Gestion Mail</span>

@@ -119,7 +119,7 @@ if ($request->filled('new_emails')) {
      */
     public function show(Subscription $subscription)
     {
-        //
+        return view('Admin.subscriptions.show', compact('subscription'));
     }
 
     /**

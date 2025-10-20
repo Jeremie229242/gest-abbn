@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\PersonnelController;
+use App\Http\Controllers\PrestationController;
 use App\Http\Controllers\SubscriptionController;
 
 /*
@@ -48,6 +49,7 @@ Route::group([
     Route::get('subscriptions/{subscription}/download', [SubscriptionController::class, 'download'])->name('subscriptions.download');
     Route::patch('/subscriptions/{subscription}/toggle-position', [SubscriptionController::class, 'togglePosition'])
     ->name('subscriptions.toggle-position');
+    Route::resource('prestations',   PrestationController::class);
 
 
     Route::put('maintenances/{maintenance}/approve', [MaintenancesController::class, 'approve'])->name('maintenances.approve');

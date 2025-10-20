@@ -22,10 +22,11 @@ class SendSubscriptionReminders extends Command
         $today = Carbon::today();
 
         // Charge les abonnements avec leurs relations
-      //  $subscriptions = Subscription::with(['emails', 'user', 'site'])->get();
-      $subscriptions = Subscription::with(['emails', 'user', 'site'])
-      ->where('position', false) // ✅ Ne pas envoyer si position = true
-      ->get();
+        $subscriptions = Subscription::where('status', true)
+        ->where('position', false)
+        ->with(['emails', 'user', 'site'])->get();
+
+
         // Récupère les emails d’admins depuis le .env
         $adminEmails = array_filter(array_map('trim', explode(',', env('ADMIN_EMAILS', ''))));
 

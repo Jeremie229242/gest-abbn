@@ -19,8 +19,8 @@ class SendExpiredSubscriptionNotifications extends Command
         $today = Carbon::today();
 
         // 🔍 On récupère les abonnements expirés mais encore "actifs"
-        $expiredSubs = Subscription::where('expiration_date', '<', $today)
-            //->where('status', true)
+        $expiredSubs = Subscription::where('expiration_date', '<=', $today)
+            ->where('status', true)
             ->where('position', false)
             ->with(['user', 'emails', 'site'])
             ->get();
@@ -34,6 +34,7 @@ class SendExpiredSubscriptionNotifications extends Command
         }
 
         foreach ($expiredSubs as $sub) {
+            $daysLeft = $today->diffInDays(Carbon::parse($sub->expiration_date));
             // 🕒 Marque l’abonnement comme expiré
             $sub->update([
                 'status' => false,

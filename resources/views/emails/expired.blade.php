@@ -1,5 +1,5 @@
 @component('mail::message')
-# Rappel  d’abonnement de {{ $subscription->site->nom }}
+# Rappel  d’abonnement
 
 Bonjour,
 

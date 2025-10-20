@@ -4,11 +4,13 @@
 
 Bonjour,
 
-Votre abonnement **{{ $subscription->name }}** lié à **{{ $subscription->entity }}** va expirer le **{{ $subscription->expiration_date->format('d/m/Y') }}**.
+Votre abonnement **{{ $subscription->type }}** lié à **{{ $subscription->entity }}** va expirer le **{{ $subscription->expiration_date->format('d/m/Y') }}**.
 
-Merci de penser à le renouveler.
+<p>
+            Pour éviter toute interruption de service, nous vous invitons à renouveler votre abonnement dès que possible.
+        </p>
 
-@component('mail::button', ['url' => url('/subscriptions/'.$subscription->id)])
+@component('mail::button', ['url' => url('/Admin/subscriptions/'.$subscription->id)])
 Voir l’abonnement
 @endcomponent
 
