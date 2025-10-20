@@ -119,9 +119,9 @@
                     @else
                         Aucun
                     @endif
-												<a class="dropdown-item" href="{{ route('Admin.subscriptions.edit', $sub->id) }}"><i class="dw dw-edit2"></i> Modifier</a>
+												<a class="dropdown-item" href="{{ route('Admin.prestations.edit', $prest->id) }}"><i class="dw dw-edit2"></i> Modifier</a>
 												<a class="dropdown-item" ><i class="dw dw-delete-3"></i>
-                                                <form action="{{ route('Admin.subscriptions.destroy', $sub->id) }}" method="POST" style="display: inline">
+                                                <form action="{{ route('Admin.prestations.destroy', $prest->id) }}" method="POST" style="display: inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Supprimer</button>
