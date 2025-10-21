@@ -171,7 +171,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
-            <label>Site :</label>
+            <label>Societe :</label>
             <select name="site_id" class="selectpicker form-control">
                 @foreach(\App\Models\Site::all() as $site)
                     <option value="{{ $site->id }}"

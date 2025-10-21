@@ -68,7 +68,7 @@
                                 <div class="row" >
 									<div class="col-md-12">
                                     <div class="form-group">
-            <label for="name">Site:</label>
+            <label for="name">Societé:</label>
             <select class="selectpicker form-control" name="site_id"  >
             @foreach ($sites as $site)
                                         <option value="{{ $site->id }}">{{ $site->nom }}</option>

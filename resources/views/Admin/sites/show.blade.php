@@ -1,5 +1,5 @@
 @extends("layouts.master")
-@section('title','GEST-APP | Details Sites')
+@section('title','GEST-APP | Details Societe')
 @section("contenu")
 
 <!-- resources/views/roles/show.blade.php -->

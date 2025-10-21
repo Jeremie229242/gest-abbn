@@ -1,5 +1,5 @@
 @extends("layouts.master")
-@section('title','GEST-APP | Liste des Sites')
+@section('title','GEST-APP | Liste des Societé')
 @section("contenu")
 
 <!-- resources/views/roles/index.blade.php -->
@@ -17,7 +17,7 @@
 					<div class="row">
 						<div class="col-md-6 col-sm-12">
 							<div class="title">
-								<h4>Les Site</h4>
+								<h4>Les Societé</h4>
 							</div>
 							<nav aria-label="breadcrumb" role="navigation">
 								<ol class="breadcrumb">
@@ -41,7 +41,7 @@
                 @if(count($sites) > 0)
 				<div class="card-box mb-30">
 					<div class="pd-20">
-						<h4 class="text-blue h4">Liste des sites</h4>
+						<h4 class="text-blue h4">Liste des société</h4>
 					</div>
 					<div class="pb-20">
 						<table class="table hover multiple-select-row data-table-export nowrap">

@@ -1,5 +1,5 @@
 @extends("layouts.master")
-@section('title','GEST-APP | Ajout de Materiels')
+@section('title','GEST-APP | Ajout de Prestation')
 @section("contenu")
 
 <!-- resources/views/roles/create.blade.php -->
@@ -13,7 +13,7 @@
 					<div class="row">
 						<div class="col-md-6 col-sm-12">
 							<div class="title">
-								<h4>Créer un nouvel materiel</h4>
+								<h4>Créer une nouvelle Prestation</h4>
 							</div>
 							<nav aria-label="breadcrumb" role="navigation">
 								<ol class="breadcrumb">
@@ -118,7 +118,7 @@
                                 <div class="row"  >
 									<div class="col-md-12">
                                     <div class="form-group">
-            <label for="name">Site:</label>
+            <label for="name">Societe:</label>
             <select class="selectpicker form-control" name="site_id"  >
             @foreach ($sites as $site)
                                         <option value="{{ $site->id }}">{{ $site->nom }}</option>

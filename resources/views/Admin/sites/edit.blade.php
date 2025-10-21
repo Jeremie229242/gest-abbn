@@ -1,11 +1,11 @@
 @extends("layouts.master")
-@section('title','GEST-APP | Modification  Sites')
+@section('title','GEST-APP | Modification  Societé')
 @section("contenu")
 
 <!-- resources/views/roles/edit.blade.php -->
 
 
-    
+
 
 
 
@@ -14,7 +14,7 @@
 					<div class="row">
 						<div class="col-md-6 col-sm-12">
 							<div class="title">
-								<h4>Modifier le Site : {{ $site->nom }}</h4>
+								<h4>Modifier la société : {{ $site->nom }}</h4>
 							</div>
 							<nav aria-label="breadcrumb" role="navigation">
 								<ol class="breadcrumb">
@@ -27,7 +27,7 @@
 						<div class="col-md-6 col-sm-12 text-right">
 							<div class="dropdown">
 								<a class="btn btn-primary dropdown-toggle" href="{{ route('Admin.sites.index') }}" >
-									Liste des sites
+									Liste des societé
 								</a>
 
 							</div>
@@ -38,7 +38,7 @@
 				<div class="pd-20 card-box mb-30">
 					<div class="clearfix">
 						<h4 class="text-blue h4">Formulaire de Modification</h4>
-						<p class="mb-30">Modifier des sites</p>
+						<p class="mb-30">Modifier Societe</p>
 					</div>
 					<div class="wizard-content">
                     <form action="{{ route('Admin.sites.update', $site->id) }}" method="POST">
