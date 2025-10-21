@@ -40,7 +40,7 @@
 						<p class="mb-30">Créer Prestation </p>
 					</div>
 					<div class="wizard-content">
-                    <form action="{{ route('Admin.prestations.store') }}" method="POST">
+                    <form action="{{ route('Admin.prestations.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
 							<section>

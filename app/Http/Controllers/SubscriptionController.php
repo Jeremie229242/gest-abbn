@@ -222,6 +222,8 @@ public function togglePosition(Subscription $subscription)
      */
     public function destroy(Subscription $subscription)
     {
-        //
+        $subscription->delete();
+
+        return back()->with('success', 'Abbonnement supprime avec succes');
     }
 }

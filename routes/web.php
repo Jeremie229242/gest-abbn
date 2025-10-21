@@ -12,6 +12,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\PersonnelController;
 use App\Http\Controllers\PrestationController;
 use App\Http\Controllers\SubscriptionController;
+use App\Models\Prestation;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,7 @@ Route::group([
     Route::resource('prestations',   PrestationController::class);
     Route::patch('/prestations/{prestation}/toggle-position', [PrestationController::class, 'togglePosition'])
     ->name('prestations.toggle-position');
+    Route::get('prestations/{prestation}/download', [PrestationController::class, 'download'])->name('prestations.download');
 
 
     Route::get('/rapport/{id}', [HomeController::class, 'show'])->name('sites.rapport');

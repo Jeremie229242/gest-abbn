@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Prestation;
 use App\Models\Site;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PrestationController extends Controller
 {
@@ -79,6 +80,26 @@ class PrestationController extends Controller
     {
         //
     }
+    public function download(Prestation $prestation)
+    {
+        if ($prestation->file_path) {
+            return Storage::disk('public')->download($prestation->file_path);
+        }
+        return back()->with('error', 'Aucun fichier disponible.');
+    }
+
+    public function togglePosition(Prestation $prestation)
+{
+    $prestation->status = !$prestation->status; // Inverse l’état
+    $prestation->save();
+
+    $message = $prestation->status
+        ? 'Prestation Cloturer avec succes.'
+        : 'Prestation encours avec succes.';
+
+    return back()->with('success', $message);
+}
+
 
     /**
      * Show the form for editing the specified resource.
@@ -111,6 +132,8 @@ class PrestationController extends Controller
      */
     public function destroy(Prestation $prestation)
     {
-        //
+        $prestation->delete();
+
+        return back()->with('success', 'Prestation supprime avec succes');
     }
 }

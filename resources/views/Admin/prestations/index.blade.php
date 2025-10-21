@@ -108,7 +108,7 @@
 											<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 												<a class="dropdown-item" href="{{ route('Admin.prestations.show', $prest->id) }}"><i class="dw dw-eye"></i> Voir</a>
                                                 @if($prest->file_path)
-                        <a href="{{ route('Admin.prests.download', $sub) }}" class="dropdown-item"><i class="dw dw-download"></i>Télécharger</a>
+                        <a href="{{ route('Admin.prestations.download', $prest) }}" class="dropdown-item"><i class="dw dw-download"></i>Télécharger</a>
                     @else
                         Aucun
                     @endif
