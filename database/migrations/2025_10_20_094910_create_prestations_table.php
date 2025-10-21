@@ -20,11 +20,11 @@ return new class extends Migration
             $table->string('code', 200)->unique();
             $table->string('name')->nullable();
             $table->string('type')->nullable();
-            $table->string('status')->nullable();
+            $table->string('status')->default(false)->nullable();
             $table->date('pest_date')->nullable();
             $table->integer('duration_days')->nullable();
             $table->enum('patr', ['oui','non']);
-            $table->string('montant')->nullable();
+            $table->string('montant')->default(0)->nullable();
             $table->string('file_path')->nullable();
 
             $table->foreignId('user_id')

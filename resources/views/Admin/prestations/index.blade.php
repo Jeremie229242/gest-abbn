@@ -48,12 +48,13 @@
 							<thead>
 								<tr>
 									<th class="table-plus datatable-nosort">code</th>
-                                    <th>Date Abbn</th>
-                                    <th>Date exp</th>
-                                    <th>Type Abbn</th>
+                                    <th>Societé</th>
+                                    <th>Date Prestation</th>
+                                    <th>Type Prestation</th>
+                                    <th>Durée</th>
                                     <th>Status</th>
-                                    <th>Position</th>
-                                    <th>Mails</th>
+                                    <th>Montant</th>
+
 									<th>Ajouter le</th>
                                     <th>Par</th>
                                     <th class="datatable-nosort">Action</th>
@@ -63,45 +64,37 @@
                             @foreach($prests as $prest)
 								<tr>
 									<td class="table-plus">{{ $prest->code }}</td>
+                                    <td class="table-plus">{{ $prest->site->nom }}</td>
                                     <td class="table-plus">{{ $prest->pest_date->format('d/m/Y') }}</td>
-                                    <td class="table-plus">0</td>
+
 
                                     <td>
                                     {{ $prest->type }}
                 </td>
                 <td>
-    {{-- Statut d’abonnement --}}
-    @if($prest->status)
-        <span class="badge bg-success">🟢 Actif</span>
-    @else
-        <span class="badge bg-danger">🔴 Expiré</span>
-    @endif
+                {{ $prest->duration_days }}
 </td>
 
-<td>
-    {{-- Envoi de mails --}}
-    @if($prest->position)
-        <span class="badge bg-secondary">⏸️ Envoi stoppé</span>
-    @else
-        <span class="badge bg-info">📧 Envoi actif</span>
-    @endif
-</td>
+
 
 <td>
     {{-- Bouton pour changer position --}}
     <form action="{{ route('Admin.prestations.toggle-position', $prest->id) }}" method="POST">
         @csrf
         @method('PATCH')
-        @if($prest->position)
+        @if($prest->status)
             <button type="submit" class="btn btn-sm btn-success">
-                🔄 Relancer les envois
+                🔄 Prestation Cloturer
             </button>
         @else
-            <button type="submit" class="btn btn-sm btn-warning">
-                ⏸️ Stopper les envois
+            <button type="submit" class="btn btn-sm btn-danger">
+                ⏸️ Prestation en cour
             </button>
         @endif
     </form>
+</td>
+<td>
+{{ $prest->montant }}
 </td>
 
 									<td>{{ $prest->created_at }}</td>
