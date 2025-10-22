@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('per_sites', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('subscriptions', function (Blueprint $table) {
+            $table->unsignedBigInteger('client_id');
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
         });
     }
 
@@ -26,6 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('per_sites');
+        Schema::table('subscriptions', function (Blueprint $table) {
+            //
+        });
     }
 };

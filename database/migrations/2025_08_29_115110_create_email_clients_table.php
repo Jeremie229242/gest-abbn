@@ -13,9 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('subscriptions', function (Blueprint $table) {
-            $table->unsignedBigInteger('site_id');
-            $table->foreign('site_id')->references('id')->on('sites')->onDelete('cascade');
+        Schema::create('email_clients', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('client_id')
+            ->constrained('clients')
+            ->onDelete('cascade');
+
+      $table->foreignId('email_id')
+            ->constrained('emails')
+            ->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -26,8 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('subscriptions', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('email_clients');
     }
 };

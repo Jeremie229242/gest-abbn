@@ -24,13 +24,14 @@ return new class extends Migration
             $table->integer('remind_before_days');      // ex: 2, 3, 20
             $table->string('type');                     // type abonnement
             $table->string('file_path')->nullable();    // fichier uploadé
-
+            $table->boolean('position')->default(false)->nullable();
+            $table->boolean('status')->default(true)->nullable();
             $table->foreignId('user_id')
             ->nullable()
             ->constrained('users')
             ->onDelete('cascade')
             ->onUpdate('cascade');
-           
+
 
             $table->timestamps();
         });

@@ -19,13 +19,17 @@ return new class extends Migration
             $table->string('code', 200)->unique();
             $table->string('name', 200)->unique();
             $table->longText('email')->nullable();
-
+            $table->foreignId('client_id')
+            ->nullable()
+            ->constrained('clients')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
 $table->foreignId('user_id')
             ->nullable()
             ->constrained('users')
             ->onDelete('cascade')
             ->onUpdate('cascade');
-            
+
             $table->timestamps();
         });
     }

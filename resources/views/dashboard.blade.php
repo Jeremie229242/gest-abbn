@@ -13,7 +13,7 @@
 						<h4 class="font-20 weight-500 mb-10 text-capitalize">
 							Bienvenue <div class="weight-600 font-30 text-blue">{{ Auth::user()->name }}!</div>
 						</h4>
-						<p class="font-18 max-width-600">Gest-App est une applicationconcut avec le framework Laravel qui permet de gérer le parc informatique et les abonnements (subscriptions) d’une entreprise ou d’un utilisateur</p>
+						<p class="font-18 max-width-600">Gest-App est une applicationconcut  qui permet de gérer les abonnements (subscriptions) d’une entreprise ou d’un utilisateur</p>
 					</div>
 				</div>
 			</div>
@@ -73,7 +73,7 @@
 				</div>
 			</div>
 
-           
+
 
 
 

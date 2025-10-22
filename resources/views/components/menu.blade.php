@@ -40,7 +40,7 @@
 
 <li>
 <a href="{{ route('Admin.sites.index') }}" class="dropdown-toggle no-arrow {{ isActiveRoute('Admin.sites.index') }}">
-        <span class="micon dw dw-apartment"></span><span class="mtext">Gestion Société</span>
+        <span class="micon dw dw-apartment"></span><span class="mtext">Gestion Clients</span>
     </a>
         </li>
 

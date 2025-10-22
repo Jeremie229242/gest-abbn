@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('prestations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('site_id');
-            $table->foreign('site_id')->references('id')->on('sites')->onDelete('cascade');
+            $table->unsignedBigInteger('client_id');
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
             $table->string('code', 200)->unique();
             $table->string('name')->nullable();
             $table->string('type')->nullable();

@@ -15,9 +15,14 @@ return new class extends Migration
     {
         Schema::create('sites', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
-            $table->string('description')->nullable();
-           
+            $table->string('rai_soci');
+            $table->string('intitule')->nullable();
+            $table->string('adresse')->nullable();
+            $table->string('numero')->nullable();
+            $table->string('inter_prin')->nullable();
+            $table->string('pays')->nullable();
+            $table->string('ville')->nullable();
+
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

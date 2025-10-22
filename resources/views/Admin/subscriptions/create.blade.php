@@ -173,7 +173,7 @@
 							</section>
 							<!-- Step 2 -->
                             <div class="modal-footer justify-content-center">
-								<a type="button" href="{{ route('Admin.maintenances.index') }}" class="btn btn-danger" >Annuller</a>
+								<a type="button" href="{{ route('Admin.subscriptions.index') }}" class="btn btn-danger" >Annuller</a>
 								<button type="submit" class="btn btn-primary" >Valider</button>
 
                             </div>
