@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class Subscription extends Model
 {
-   
+
 
 
     use HasFactory;
@@ -26,14 +26,19 @@ class Subscription extends Model
     protected $fillable = [
         'code',
         'name',
-        'entity',
+
         'subscription_date',
         'expiration_date',
         'remind_before_days',
         'type',
         'file_path',
         'user_id',
-        'site_id'
+        'client_id',
+        'resilier',
+        'motif',
+        'date_res',
+        'date_fac',
+
     ];
 
 
@@ -72,17 +77,14 @@ class Subscription extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function site()
+    public function client()
     {
-        return $this->belongsTo(Site::class, 'site_id');
+        return $this->belongsTo(Client::class, 'client_id');
     }
 
 
 
-    public function emails()
-{
-    return $this->belongsToMany(Email::class, 'email_subscriptions');
-}
+  
 
 
 

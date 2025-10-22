@@ -18,7 +18,7 @@ return new class extends Migration
 
             $table->string('code', 200)->unique();
             $table->string('name');                     // nom abonnement
-            $table->string('entity');                   // entité
+                               
             $table->date('subscription_date');          // date début
             $table->date('expiration_date');            // date fin
             $table->integer('remind_before_days');      // ex: 2, 3, 20
@@ -26,6 +26,16 @@ return new class extends Migration
             $table->string('file_path')->nullable();    // fichier uploadé
             $table->boolean('position')->default(false)->nullable();
             $table->boolean('status')->default(true)->nullable();
+            $table->boolean('resilier')->default(false)->nullable();
+            $table->string('motif')->nullable();
+            $table->date('date_res')->nullable();
+            $table->date('date_fac')->nullable();
+            $table->foreignId('client_id')
+            ->nullable()
+            ->constrained('clients')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
+
             $table->foreignId('user_id')
             ->nullable()
             ->constrained('users')

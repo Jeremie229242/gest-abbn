@@ -12,6 +12,8 @@ use Carbon\Carbon;
 
 
 
+
+
 class SendSubscriptionReminders extends Command
 {
     protected $signature = 'subscriptions:send-reminders';
@@ -21,55 +23,46 @@ class SendSubscriptionReminders extends Command
     {
         $today = Carbon::today();
 
-        // Charge les abonnements avec leurs relations
+        // On récupère toutes les subscriptions avec leurs relations
         $subscriptions = Subscription::where('status', true)
-        ->where('position', false)
-        ->with(['emails', 'user', 'site'])->get();
+            ->with(['client.emails', 'client.user'])
+            ->get();
 
-
-        // Récupère les emails d’admins depuis le .env
+        // Emails des administrateurs depuis le .env
         $adminEmails = array_filter(array_map('trim', explode(',', env('ADMIN_EMAILS', ''))));
 
         foreach ($subscriptions as $sub) {
-
-            // Calcul de la date de rappel
             $remindDate = Carbon::parse($sub->expiration_date)->subDays($sub->remind_before_days);
 
+            // Si c’est le jour du rappel
             if ($today->equalTo($remindDate)) {
-
                 $daysLeft = Carbon::parse($sub->expiration_date)->diffInDays($today);
 
-                // 1️⃣ Envoi aux emails liés à l’abonnement
-                foreach ($sub->emails as $email) {
-                    Mail::to($email->email)
-                        ->queue(new SubscriptionReminderMail($sub));
+                // 1️⃣ Envoi à tous les emails liés au client
+                if ($sub->client && $sub->client->emails) {
+                    foreach ($sub->client->emails as $email) {
+                        Mail::to($email->email)
+                            ->queue(new SubscriptionReminderMail($sub));
+                    }
                 }
 
-                // 2️⃣ Envoi à l’utilisateur créateur
-                if ($sub->user && $sub->user->email) {
-                    Mail::to($sub->user->email)
+                // 2️⃣ Envoi à l’utilisateur lié au client
+                if ($sub->client && $sub->client->user && $sub->client->user->email) {
+                    Mail::to($sub->client->user->email)
                         ->queue(new AdminReminderMail($sub, $daysLeft));
                 }
 
-                // 3️⃣ Envoi aux administrateurs définis dans .env
+                // 3️⃣ Envoi aux administrateurs
                 foreach ($adminEmails as $adminEmail) {
                     Mail::to($adminEmail)
                         ->queue(new AdminReminderMail($sub, $daysLeft));
                 }
 
-                $siteName = $sub->site ? $sub->site->nom : $sub->site_id;
-
-                $this->info("Rappels envoyés pour {$sub->name} (Site: {$siteName}) " .
-                    "à : " . $sub->emails->pluck('email')->implode(', ') .
-                    ($sub->user ? " + user {$sub->user->email}" : '') .
-                    (!empty($adminEmails) ? " + admins " . implode(', ', $adminEmails) : '')
-                );
-
-
+                // Console log
+                $this->info("📧 Rappels envoyés pour l'abonnement ID {$sub->id} du client {$sub->client->rai_soci}");
             }
         }
 
         return Command::SUCCESS;
     }
-
 }

@@ -48,30 +48,24 @@
 
 								<div class="row">
 
-									<div class="col-md-6">
+									<div class="col-md-12">
                                     <div class="form-group">
             <label for="name">Nom Abonnement:</label>
             <input type="text" name="name" id="name" class="form-control" required>
 
         </div>
 									</div>
-                                    <div class="col-md-6">
-                                    <div class="form-group">
-            <label for="name">Entite:</label>
-            <input type="text" name="entity" id="entity" class="form-control" required>
 
-        </div>
-									</div>
                                 </div>
 
 
                                 <div class="row" >
 									<div class="col-md-12">
                                     <div class="form-group">
-            <label for="name">Societé:</label>
-            <select class="selectpicker form-control" name="site_id"  >
-            @foreach ($sites as $site)
-                                        <option value="{{ $site->id }}">{{ $site->nom }}</option>
+            <label for="name">Client:</label>
+            <select class="selectpicker form-control" name="client_id"  >
+            @foreach ($clients as $client)
+                                        <option value="{{ $client->id }}">{{ $client->rai_soci }}</option>
                                     @endforeach
 
 									</select>
@@ -127,6 +121,16 @@
 </div>
 </div>
 
+<div class="row">
+<div class="col-md-12">
+                                    <div class="form-group">
+            <label for="name">Date de Facturation:</label>
+            <input type="date" name="date_fac" id="" class="form-control" required>
+
+        </div>
+									</div>
+</div>
+
                                     <div class="row">
 									<div class="col-md-12">
                                     <div class="form-group">
@@ -140,31 +144,7 @@
 
 								</div>
 
-                                <div class="row">
-									<div class="col-md-12">
-                                    <div class="form-group">
-            <label for="name">Email de rappel:</label>
 
-                                    <select name="emails[]" id="emails" class="selectpicker form-control" multiple required>
-        @foreach(\App\Models\Email::all() as $email)
-            <option value="{{ $email->email }}">{{ $email->email }}</option>
-        @endforeach
-    </select>
-    <small class="text-muted">Maintenez CTRL (ou CMD sur Mac) pour sélectionner plusieurs emails</small>
-
-
-        </div>
-									</div>
-
-
-                                </div>
-
-                                <div class="form-group mt-3">
-    <label for="new_emails">Nouveaux emails (séparés par des virgules) :</label>
-    <input type="text" name="new_emails" id="new_emails" class="form-control"
-           placeholder="ex: test1@mail.com, test2@mail.com">
-    <small class="text-muted">Tu peux entrer plusieurs emails séparés par une virgule</small>
-</div>
 
 
 

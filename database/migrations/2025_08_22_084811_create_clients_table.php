@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sites', function (Blueprint $table) {
+        Schema::create('clients', function (Blueprint $table) {
             $table->id();
-            $table->string('rai_soci');
+            $table->string('rai_soci', 200)->unique();
             $table->string('intitule')->nullable();
             $table->string('adresse')->nullable();
             $table->string('numero')->nullable();
@@ -37,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sites');
+        Schema::dropIfExists('clients');
     }
 };

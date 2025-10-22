@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 
-class Site extends Model
+class Client extends Model
 {
     use SoftDeletes;
     use HasFactory;
 
-    public $table = 'sites';
+    public $table = 'clients';
 
     protected $dates = [
         'created_at',
@@ -21,20 +21,28 @@ class Site extends Model
         'deleted_at',
     ];
     protected $fillable = [
-        'nom',
-        'description',
+        
+        'rai_soci',
+        'intitule',
+        'adresse',
+        'numero',
+        'inter_prin',
+        'pays',
+        'ville',
 'user_id',
         'created_at',
         'updated_at',
         'deleted_at',
     ];
 
+    public function emails()
+{
+    return $this->belongsToMany(Email::class, 'email_clients');
+}
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
-    public function materiels()
-{
-    return $this->hasMany(Materiel::class);
-}
+
 }

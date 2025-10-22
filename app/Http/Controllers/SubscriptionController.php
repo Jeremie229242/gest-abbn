@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Email;
 use App\Models\Site;
 use App\Models\Subscription;
@@ -29,9 +30,9 @@ class SubscriptionController extends Controller
      */
     public function create()
     {
-        $sites = Site::all();
-        $emails = Email::all();
-        return view('Admin.subscriptions.create',compact('emails', 'sites'));
+        $clients = Client::all();
+
+        return view('Admin.subscriptions.create',compact( 'clients'));
 
     }
 
@@ -46,15 +47,16 @@ class SubscriptionController extends Controller
         $validated = $request->validate([
 
             'name' => 'required|string',
-            'entity' => 'required|string',
+
             'subscription_date' => 'required|date',
             'expiration_date' => 'required|date|after:subscription_date',
             'remind_before_days' => 'required|integer|min:1',
             'type' => 'required|string',
             'file' => 'nullable|file|mimes:pdf,jpg,png,doc,docx',
-            'emails' => 'required|array',
-        'emails.*' => 'email',
-        'site_id' => 'required'
+
+        'client_id' => 'required',
+        'date_fac' => 'required',
+
 
         ]);
 
@@ -68,26 +70,7 @@ class SubscriptionController extends Controller
        // Création de l’abonnement
     $subscription = Subscription::create($validated);
         // Gestion des emails (création si nouveaux)
-    $emailIds = [];
-    foreach ($validated['emails'] as $mail) {
-        $email = Email::firstOrCreate(['email' => $mail]);
-        $emailIds[] = $email->id;
-    }
 
-
-    // Nouveaux emails ajoutés manuellement
-if ($request->filled('new_emails')) {
-    $newEmails = array_map('trim', explode(',', $request->new_emails));
-    foreach ($newEmails as $mail) {
-        if (filter_var($mail, FILTER_VALIDATE_EMAIL)) {
-            $email = Email::firstOrCreate(['email' => $mail], [ 'name' => strtok($mail, '@')]);
-            $emailIds[] = $email->id;
-        }
-    }
-}
-
-    // Attache les emails à la subscription
-    $subscription->emails()->sync($emailIds);
 
         return redirect()->route('Admin.subscriptions.index')
             ->with('success', 'Abonnement ajouté avec succès.');

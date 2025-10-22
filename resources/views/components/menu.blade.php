@@ -39,7 +39,7 @@
 
 
 <li>
-<a href="{{ route('Admin.sites.index') }}" class="dropdown-toggle no-arrow {{ isActiveRoute('Admin.sites.index') }}">
+<a href="{{ route('Admin.clients.index') }}" class="dropdown-toggle no-arrow {{ isActiveRoute('Admin.clients.index') }}">
         <span class="micon dw dw-apartment"></span><span class="mtext">Gestion Clients</span>
     </a>
         </li>
@@ -52,11 +52,11 @@
 
 
 
-<li>
+<!-- <li>
     <a href="{{ route('Admin.e-mails.index') }}" class="dropdown-toggle no-arrow {{ isActiveRoute('Admin.e-mails.index') }}">
         <span class="micon dw dw-paint-brush"></span><span class="mtext">Gestion Mail</span>
     </a>
-</li>
+</li> -->
 <li>
     <a href="{{ route('Admin.subscriptions.index') }}" class="dropdown-toggle no-arrow {{ isActiveRoute('Admin.subscriptions.index') }}">
         <span class="micon dw dw-calendar1"></span><span class="mtext">Gestion Souscrption</span>

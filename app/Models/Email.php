@@ -27,6 +27,7 @@ class Email extends Model
             'code',
             'name',
             'email',
+            'client_id',
             'user_id',
 
     ];
@@ -61,9 +62,11 @@ class Email extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
- public function subscriptions()
-    {
-        return $this->belongsToMany(Subscription::class, 'email_subscriptions');
-    }
+
+    public function clients()
+{
+    return $this->belongsToMany(Client::class, 'email_clients');
+}
+
 }
 

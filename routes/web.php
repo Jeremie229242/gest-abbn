@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -12,6 +13,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\PersonnelController;
 use App\Http\Controllers\PrestationController;
 use App\Http\Controllers\SubscriptionController;
+use App\Models\Client;
 use App\Models\Prestation;
 
 /*
@@ -41,7 +43,7 @@ Route::group([
     Route::resource('roles', RoleController::class);
 
     Route::resource('utilisateurs', UserController::class);
-    Route::resource('sites', SiteController::class);
+    Route::resource('clients', ClientController::class);
     Route::resource('personnels', PersonnelController::class);
 
     Route::resource('e-mails', EmailController::class);

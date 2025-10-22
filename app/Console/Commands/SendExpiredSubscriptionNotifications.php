@@ -5,8 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Subscription;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\SubscriptionExpiredMail; // 📩 À créer (semblable à SubscriptionReminderMail)
-use App\Mail\AdminExpiredMail;        // 📩 À créer (semblable à AdminReminderMail)
+use App\Mail\SubscriptionExpiredMail;
+use App\Mail\AdminExpiredMail;
 use Carbon\Carbon;
 
 class SendExpiredSubscriptionNotifications extends Command
@@ -18,55 +18,50 @@ class SendExpiredSubscriptionNotifications extends Command
     {
         $today = Carbon::today();
 
-        // 🔍 On récupère les abonnements expirés mais encore "actifs"
+        // 🔍 Récupérer les abonnements expirés mais encore "actifs"
         $expiredSubs = Subscription::where('expiration_date', '<=', $today)
             ->where('status', true)
             ->where('position', false)
-            ->with(['user', 'emails', 'site'])
+            ->with(['client.emails', 'client.user', 'site'])
             ->get();
 
-        // 📧 Emails des administrateurs définis dans .env
+        // 📧 Emails administrateurs définis dans .env
         $adminEmails = array_filter(array_map('trim', explode(',', env('ADMIN_EMAILS', ''))));
 
         if ($expiredSubs->isEmpty()) {
-            $this->info("Aucun abonnement expiré trouvé.");
+            $this->info("Aucun abonnement expiré trouvé aujourd'hui ✅");
             return Command::SUCCESS;
         }
 
         foreach ($expiredSubs as $sub) {
-            $daysLeft = $today->diffInDays(Carbon::parse($sub->expiration_date));
-            // 🕒 Marque l’abonnement comme expiré
-            $sub->update([
-                'status' => false,
+            $sub->update(['status' => false]);
 
-            ]);
+            $siteName = $sub->site ? $sub->site->nom : 'N/A';
+            $emailsSent = [];
 
-            $siteName = $sub->site ? $sub->site->nom : $sub->site_id;
-
-            // 📨 1️⃣ Envoi aux emails liés à l’abonnement
-            foreach ($sub->emails as $email) {
-                Mail::to($email->email)
-                    ->queue(new SubscriptionExpiredMail($sub));
+            // 📨 1️⃣ Envoi aux emails du client
+            if ($sub->client && $sub->client->emails) {
+                foreach ($sub->client->emails as $email) {
+                    Mail::to($email->email)->queue(new SubscriptionExpiredMail($sub));
+                    $emailsSent[] = $email->email;
+                }
             }
 
-            // 📨 2️⃣ Envoi à l’utilisateur créateur
-            if ($sub->user && $sub->user->email) {
-                Mail::to($sub->user->email)
-                    ->queue(new AdminExpiredMail($sub));
+            // 📨 2️⃣ Envoi à l’utilisateur ayant créé le client
+            if ($sub->client && $sub->client->user && $sub->client->user->email) {
+                Mail::to($sub->client->user->email)->queue(new AdminExpiredMail($sub));
+                $emailsSent[] = $sub->client->user->email;
             }
 
             // 📨 3️⃣ Envoi aux administrateurs du .env
             foreach ($adminEmails as $adminEmail) {
-                Mail::to($adminEmail)
-                    ->queue(new AdminExpiredMail($sub));
+                Mail::to($adminEmail)->queue(new AdminExpiredMail($sub));
+                $emailsSent[] = $adminEmail;
             }
 
             // 📝 Log clair dans la console
-            $this->info("🔔 Abonnement expiré : {$sub->name} (Site: {$siteName}) " .
-                "— mails envoyés à " . $sub->emails->pluck('email')->implode(', ') .
-                ($sub->user ? " + user {$sub->user->email}" : '') .
-                (!empty($adminEmails) ? " + admins " . implode(', ', $adminEmails) : '')
-            );
+            $this->warn("❌ Abonnement expiré : {$sub->name} (Site: {$siteName})");
+            $this->info("📤 Emails envoyés à : " . implode(', ', $emailsSent));
         }
 
         return Command::SUCCESS;

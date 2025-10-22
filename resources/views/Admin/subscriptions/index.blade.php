@@ -50,9 +50,11 @@
 									<th class="table-plus datatable-nosort">code</th>
                                     <th>Date Abbn</th>
                                     <th>Date exp</th>
+                                    <th>Jours restants</th>
                                     <th>Type Abbn</th>
                                     <th>Status</th>
                                     <th>Position</th>
+
                                     <th>Mails</th>
 									<th>Ajouter le</th>
                                     <th>Par</th>
@@ -65,7 +67,11 @@
 									<td class="table-plus">{{ $sub->code }}</td>
                                     <td class="table-plus">{{ $sub->subscription_date->format('d/m/Y') }}</td>
                                     <td class="table-plus">{{ $sub->expiration_date->format('d/m/Y') }}</td>
-
+                                    <td class="days-left"
+                    data-expiration="{{ $sub->expiration_date }}"
+                    data-remind="{{ $sub->remind_before_days }}">
+                    <!-- Le JS calculera et colorera -->
+                </td>
                                     <td>
                                     {{ $sub->type }}
                 </td>
@@ -167,4 +173,47 @@
             }
         });
     </script>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const today = new Date();
+    const elements = document.querySelectorAll(".days-left");
+
+    elements.forEach(el => {
+        const expDate = new Date(el.dataset.expiration);
+        const remindDays = parseInt(el.dataset.remind);
+
+        // Calcul du nombre de jours restants
+        const diffTime = expDate - today;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        // Couleur par défaut
+        let color = "green";
+        let bg = "transparent";
+        let label = diffDays + " jour" + (diffDays > 1 ? "s" : "");
+
+        // ⚙️ Gestion dynamique selon remind_before_days
+        if (diffDays <= 0) {
+            color = "white";
+            bg = "red";
+            label = "Expiré";
+        } else if (diffDays <= remindDays) {
+            color = "white";
+            bg = "orange";
+            label = `⚠️ ${diffDays} jour${diffDays > 1 ? "s" : ""} rest.`; // alerte
+        } else if (diffDays <= remindDays + 5) {
+            color = "black";
+            bg = "yellow";
+        }
+
+        // Applique le style
+        el.textContent = label;
+        el.style.color = color;
+        el.style.backgroundColor = bg;
+        el.style.padding = "4px 8px";
+        el.style.borderRadius = "6px";
+        el.style.fontWeight = "bold";
+        el.style.textAlign = "center";
+    });
+});
+</script>
 @endsection
