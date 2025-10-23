@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Email;
 use App\Models\Site;
+use App\Mail\ResiliationMail;
 use App\Models\Subscription;
 use Doctrine\Inflector\Rules\Substitution;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class SubscriptionController extends Controller
@@ -35,6 +37,41 @@ class SubscriptionController extends Controller
         return view('Admin.subscriptions.create',compact( 'clients'));
 
     }
+
+
+
+    public function resilier(Request $request, Subscription $subscription)
+    {
+        $validated = $request->validate([
+            'motif' => 'required|string|max:255',
+            'date_res' => 'required|date',
+        ]);
+
+        // 🔹 Mise à jour des informations de résiliation
+        $subscription->update([
+            'motif' => $validated['motif'],
+            'date_res' => $validated['date_res'],
+            'resilier' => true,
+        ]);
+
+        // 🔹 Récupération des emails liés au client de cet abonnement
+        $client = $subscription->client;  // relation Subscription → Client
+        $emails = $client ? $client->emails : collect();
+
+        // 🔹 Envoi du mail de résiliation à chaque email du client
+        foreach ($emails as $email) {
+            Mail::to($email->email)->queue(new ResiliationMail($subscription));
+        }
+
+        // 🔹 Optionnel : notifier aussi le créateur de l’abonnement
+        if ($subscription->user && $subscription->user->email) {
+            Mail::to($subscription->user->email)->queue(new ResiliationMail($subscription));
+        }
+        return redirect()->route('Admin.subscriptions.index')
+        ->with('success', 'Abonnement résilié avec succès.');
+       // return response()->json(['success' => true, 'message' => 'Abonnement résilié avec succès.']);
+    }
+
 
     /**
      * Store a newly created resource in storage.

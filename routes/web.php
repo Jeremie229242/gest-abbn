@@ -52,6 +52,10 @@ Route::group([
     Route::patch('/subscriptions/{subscription}/toggle-position', [SubscriptionController::class, 'togglePosition'])
     ->name('subscriptions.toggle-position');
     Route::resource('prestations',   PrestationController::class);
+
+    Route::post('/subscriptions/{subscription}/resilier', [SubscriptionController::class, 'resilier'])
+    ->name('subscriptions.resilier');
+
     Route::patch('/prestations/{prestation}/toggle-position', [PrestationController::class, 'togglePosition'])
     ->name('prestations.toggle-position');
     Route::get('prestations/{prestation}/download', [PrestationController::class, 'download'])->name('prestations.download');

@@ -31,28 +31,28 @@ class SubscriptionExpiredMail extends Mailable
      *
      * @return \Illuminate\Mail\Mailables\Envelope
      */
-    // public function envelope()
+     public function envelope()
+     {
+         return new Envelope(
+             subject: "Rappel : Abonnement {$this->subscription->name} arrive à expiration",
+         );
+     }
+    // public function build()
     // {
-    //     return new Envelope(
-    //         subject: "Rappel : Abonnement {$this->subscription->name} arrive à expiration",
-    //     );
+    //     return $this->subject('⚠️ Abonnement expiré - ' . $this->subscription->name)
+    //                 ->view('emails.expired'); // 🔹 Ton template HTML
     // }
-    public function build()
-    {
-        return $this->subject('⚠️ Abonnement expiré - ' . $this->subscription->name)
-                    ->view('emails.expired'); // 🔹 Ton template HTML
-    }
     /**
      * Get the message content definition.
      *
      * @return \Illuminate\Mail\Mailables\Content
      */
-    // public function content()
-    // {
-    //     return new Content(
-    //         markdown: 'emails.expired',
-    //     );
-    // }
+     public function content()
+     {
+         return new Content(
+             markdown: 'emails.expired',
+         );
+     }
 
     /**
      * Get the attachments for the message.

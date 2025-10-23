@@ -9,6 +9,8 @@ use App\Mail\SubscriptionExpiredMail;
 use App\Mail\AdminExpiredMail;
 use Carbon\Carbon;
 
+
+
 class SendExpiredSubscriptionNotifications extends Command
 {
     protected $signature = 'subscriptions:notify-expired';
@@ -22,7 +24,7 @@ class SendExpiredSubscriptionNotifications extends Command
         $expiredSubs = Subscription::where('expiration_date', '<=', $today)
             ->where('status', true)
             ->where('position', false)
-            ->with(['client.emails', 'client.user', 'site'])
+            ->with(['client.emails', 'client.user', 'client'])
             ->get();
 
         // 📧 Emails administrateurs définis dans .env
@@ -36,31 +38,31 @@ class SendExpiredSubscriptionNotifications extends Command
         foreach ($expiredSubs as $sub) {
             $sub->update(['status' => false]);
 
-            $siteName = $sub->site ? $sub->site->nom : 'N/A';
+            $clientName = $sub->client ? $sub->client->rai_soci : 'N/A';
             $emailsSent = [];
 
             // 📨 1️⃣ Envoi aux emails du client
             if ($sub->client && $sub->client->emails) {
                 foreach ($sub->client->emails as $email) {
-                    Mail::to($email->email)->queue(new SubscriptionExpiredMail($sub));
+                    Mail::to($email->email)->send(new SubscriptionExpiredMail($sub));
                     $emailsSent[] = $email->email;
                 }
             }
 
             // 📨 2️⃣ Envoi à l’utilisateur ayant créé le client
             if ($sub->client && $sub->client->user && $sub->client->user->email) {
-                Mail::to($sub->client->user->email)->queue(new AdminExpiredMail($sub));
+                Mail::to($sub->client->user->email)->send(new AdminExpiredMail($sub));
                 $emailsSent[] = $sub->client->user->email;
             }
 
             // 📨 3️⃣ Envoi aux administrateurs du .env
             foreach ($adminEmails as $adminEmail) {
-                Mail::to($adminEmail)->queue(new AdminExpiredMail($sub));
+                Mail::to($adminEmail)->send(new AdminExpiredMail($sub));
                 $emailsSent[] = $adminEmail;
             }
 
             // 📝 Log clair dans la console
-            $this->warn("❌ Abonnement expiré : {$sub->name} (Site: {$siteName})");
+            $this->warn("❌ Abonnement expiré : {$sub->name} (Client: {$clientName})");
             $this->info("📤 Emails envoyés à : " . implode(', ', $emailsSent));
         }
 

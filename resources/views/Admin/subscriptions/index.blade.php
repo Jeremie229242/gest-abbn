@@ -126,6 +126,19 @@
                         Aucun
                     @endif
 												<a class="dropdown-item" href="{{ route('Admin.subscriptions.edit', $sub->id) }}"><i class="dw dw-edit2"></i> Modifier</a>
+
+												<a class="dropdown-item"><i class="dw dw-edit2"></i>
+
+                                                @if(!$sub->resilier)
+        <button class="btn btn-danger "
+                onclick="openResiliationModal({{ $sub->id }})">
+            Résilier
+        </button>
+    @endif
+
+                                            </a>
+
+
 												<a class="dropdown-item" ><i class="dw dw-delete-3"></i>
                                                 <form action="{{ route('Admin.subscriptions.destroy', $sub->id) }}" method="POST" style="display: inline">
                                 @csrf
@@ -145,7 +158,36 @@
                 @else
         <p>Aucun Nom trouvé.</p>
     @endif
-				<!-- Export Datatable End -->
+    <div class="modal fade" id="resiliationModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title">Résilier l’abonnement</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <form method="POST">
+          @csrf
+          <input type="hidden" id="resiliationSubscriptionId" name="subscription_id">
+
+          <div class="mb-3">
+            <label>Motif</label>
+            <input type="text" name="motif" id="motif" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label>Date de résiliation</label>
+            <input type="date" name="date_res" id="date_res" class="form-control" required>
+          </div>
+
+          <button type="submit" class="btn btn-danger w-100">Confirmer</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 			</div>
 
@@ -216,4 +258,21 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+
+<script>
+function openResiliationModal(subscriptionId) {
+    // Injecte l'ID dans le formulaire
+    document.getElementById('resiliationSubscriptionId').value = subscriptionId;
+
+    // Met à jour dynamiquement l'action du formulaire
+    const form = document.querySelector('#resiliationModal form');
+    form.action = `/Admin/subscriptions/${subscriptionId}/resilier`;
+
+    // Ouvre le modal
+    const modal = new bootstrap.Modal(document.getElementById('resiliationModal'));
+    modal.show();
+}
+</script>
+
+
 @endsection

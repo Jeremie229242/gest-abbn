@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Mail;
+
 use App\Models\Subscription;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -9,11 +10,10 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class AdminExpiredMail extends Mailable
+class ResiliationMail extends Mailable
 {
-    use Queueable;
+    use Queueable, SerializesModels;
     public $subscription;
-    public $daysLeft;
     /**
      * Create a new message instance.
      *
@@ -22,36 +22,30 @@ class AdminExpiredMail extends Mailable
     public function __construct(Subscription $subscription)
     {
         $this->subscription = $subscription;
-       // $this->daysLeft = $daysLeft;
     }
-
     /**
      * Get the message envelope.
      *
      * @return \Illuminate\Mail\Mailables\Envelope
      */
-     public function envelope()
-     {
-         return new Envelope(
-             subject: 'Admin Expired Mail',
-         );
-     }
-    // public function build()
-    // {
-    //     return $this->subject('⚠️ Abonnement expiré')
-    //                 ->view('emails.admin_expired'); // 🔹 Ton template HTML
-    // }
+    public function envelope()
+    {
+        return new Envelope(
+            subject: 'Resiliation Mail',
+        );
+    }
+
     /**
      * Get the message content definition.
      *
      * @return \Illuminate\Mail\Mailables\Content
      */
-     public function content()
-     {
-         return new Content(
-             markdown: 'emails.admin_expired',
-         );
-     }
+    public function content()
+    {
+        return new Content(
+            markdown: 'emails.subscriptions.resiliation',
+        );
+    }
 
     /**
      * Get the attachments for the message.
