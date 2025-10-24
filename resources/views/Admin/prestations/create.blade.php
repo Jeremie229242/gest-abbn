@@ -64,14 +64,29 @@
                                 <div class="row">
 									<div class="col-md-6">
                                     <div class="form-group">
-            <label for="marque">Date de Prestation:</label>
+            <label for="marque">Date  debut de Prestation:</label>
             <input type="date" name="pest_date" id="marque" class="form-control" required>
         </div>
 									</div>
                                     <div class="col-md-6">
                                     <div class="form-group">
-            <label for="numero">Durée de prestation:</label>
-            <input type="number" name="duration_days" id="numero" class="form-control" required>
+            <label for="numero">Date fin de prestation:</label>
+            <input type="date" name="pest_fin_date" id="numero" class="form-control" required>
+        </div>
+									</div>
+								</div>
+
+                                <div class="row">
+									<div class="col-md-6">
+                                    <div class="form-group">
+            <label for="marque">Heure debut de Prestation:</label>
+            <input type="time" name="prest_debut_time" id="marque" class="form-control" required>
+        </div>
+									</div>
+                                    <div class="col-md-6">
+                                    <div class="form-group">
+            <label for="numero">Heure fin de prestation:</label>
+            <input type="time" name="prest_fin_time" id="numero" class="form-control" required>
         </div>
 									</div>
 								</div>
@@ -83,45 +98,14 @@
 
 
 
-                                <div class="row">
-									<div class="col-md-12">
-                                    <div class="form-group">
-            <label for="name">Prestation Gratuit??</label>
-            <select class="selectpicker form-control" id="question3" onchange="showHideFields3()" name="patr"  >
-										<option value="oui">Oui</option>
-										<option value="non">Non</option>
-
-									</select>
-        </div>
-									</div>
-                                </div>
-
-                                <div class="row" id="hiddenFields3" style="display: none;" >
-									<div class="col-md-12">
-                                    <div class="form-group">
-            <label for="name">Montant:</label>
-            <input type="number" name="montant" id="montant" class="form-control" >
-
-        </div>
-									</div>
-                                    <div class="col-md-12">
-                                    <div class="form-group">
-            <label for="name">document:</label>
-            <input type="file" name="file" id="numero" class="form-control" >
-
-        </div>
-									</div>
-
-                                </div>
-
 
                                 <div class="row"  >
 									<div class="col-md-12">
                                     <div class="form-group">
-            <label for="name">Societe:</label>
-            <select class="selectpicker form-control" name="site_id"  >
-            @foreach ($sites as $site)
-                                        <option value="{{ $site->id }}">{{ $site->nom }}</option>
+            <label for="name">Client:</label>
+            <select class="selectpicker form-control" name="client_id"  >
+            @foreach ($clients as $client)
+                                        <option value="{{ $client->id }}">{{ $client->rai_soci }}</option>
                                     @endforeach
 
 									</select>

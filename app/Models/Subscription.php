@@ -38,6 +38,8 @@ class Subscription extends Model
         'motif',
         'date_res',
         'date_fac',
+        'status',
+        'position',
 
     ];
 
@@ -84,7 +86,7 @@ class Subscription extends Model
 
 
 
-  
+
 
 
 

@@ -25,16 +25,25 @@ class Prestation extends Model
     protected $fillable = [
         'code',
         'name',
-
         'status',
         'pest_date',
         'duration_days',
         'type',
         'file_path',
         'user_id',
-        'site_id',
+        'client_id',
         'montant',
-        'patr'
+
+        'observation',
+        'obs_debut_date',
+        'obs_fin_date',
+        'obs_debut_time',
+        'obs_fin_time',
+        'pest_fin_date',
+        'prest_debut_time',
+        'prest_fin_time',
+        'pestclot_date',
+        'fac_date',
     ];
 
 
@@ -73,8 +82,8 @@ class Prestation extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function site()
+    public function client()
     {
-        return $this->belongsTo(Site::class, 'site_id');
+        return $this->belongsTo(Client::class, 'client_id');
     }
 }

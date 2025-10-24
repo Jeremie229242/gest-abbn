@@ -127,7 +127,7 @@
                     @endif
 												<a class="dropdown-item" href="{{ route('Admin.subscriptions.edit', $sub->id) }}"><i class="dw dw-edit2"></i> Modifier</a>
 
-												<a class="dropdown-item"><i class="dw dw-edit2"></i>
+												<a class="dropdown-item">
 
                                                 @if(!$sub->resilier)
         <button class="btn btn-danger "

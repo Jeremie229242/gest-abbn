@@ -64,7 +64,7 @@
                             @foreach($prests as $prest)
 								<tr>
 									<td class="table-plus">{{ $prest->code }}</td>
-                                    <td class="table-plus">{{ $prest->site->nom }}</td>
+                                    <td class="table-plus">{{ $prest->client->rai_soci }}</td>
                                     <td class="table-plus">{{ $prest->pest_date->format('d/m/Y') }}</td>
 
 
@@ -82,14 +82,14 @@
     <form action="{{ route('Admin.prestations.toggle-position', $prest->id) }}" method="POST">
         @csrf
         @method('PATCH')
-        @if($prest->status)
+        @if($prest->status == "Prestation planifier")
             <button type="submit" class="btn btn-sm btn-success">
-                🔄 Prestation Cloturer
+                🔄 Prestation planifier
             </button>
         @else
-            <button type="submit" class="btn btn-sm btn-danger">
+            <span class="btn btn-sm btn-info">
                 ⏸️ Prestation en cour
-            </button>
+</span>
         @endif
     </form>
 </td>
@@ -113,7 +113,19 @@
                         Aucun
                     @endif
 												<a class="dropdown-item" href="{{ route('Admin.prestations.edit', $prest->id) }}"><i class="dw dw-edit2"></i> Modifier</a>
-												<a class="dropdown-item" ><i class="dw dw-delete-3"></i>
+
+                                                <a class="dropdown-item">
+
+
+<button class="btn btn-info "
+onclick="openResiliationModal({{ $prest->id }})">
+Observation
+</button>
+
+
+</a>
+
+                                                <a class="dropdown-item" ><i class="dw dw-delete-3"></i>
                                                 <form action="{{ route('Admin.prestations.destroy', $prest->id) }}" method="POST" style="display: inline">
                                 @csrf
                                 @method('DELETE')
@@ -132,7 +144,57 @@
                 @else
         <p>Aucun Nom trouvé.</p>
     @endif
-				<!-- Export Datatable End -->
+
+
+    <div class="modal fade" id="resiliationModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title">Résilier l’abonnement</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <form method="POST">
+          @csrf
+          <input type="hidden" id="resiliationPrestationId" name="prestation_id">
+
+          <div class="mb-3">
+            <label>Motif</label>
+            <input type="text" name="motif" id="motif" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label>Date de résiliation</label>
+            <input type="date" name="date_res" id="date_res" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label>Motif</label>
+            <input type="text" name="motif" id="motif" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label>Date de résiliation</label>
+            <input type="date" name="date_res" id="date_res" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label>Date de résiliation</label>
+            <input type="date" name="date_res" id="date_res" class="form-control" required>
+          </div>
+
+
+          <button type="submit" class="btn btn-danger w-100">Confirmer</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+    <!-- Export Datatable End -->
 
 			</div>
 
@@ -160,4 +222,22 @@
             }
         });
     </script>
+
+
+<script>
+function openResiliationModal(prestationId) {
+    // Injecte l'ID dans le formulaire
+    document.getElementById('resiliationPrestationId').value = prestationId;
+
+    // Met à jour dynamiquement l'action du formulaire
+    const form = document.querySelector('#resiliationModal form');
+    form.action = `/Admin/prestations/${prestationId}/observation`;
+
+    // Ouvre le modal
+    const modal = new bootstrap.Modal(document.getElementById('resiliationModal'));
+    modal.show();
+}
+</script>
+
+
 @endsection

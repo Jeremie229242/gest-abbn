@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Prestation;
 use App\Models\Site;
 use Illuminate\Http\Request;
@@ -28,8 +29,8 @@ class PrestationController extends Controller
     public function create()
     {
 
-        $sites = Site::all();
-        return view('Admin.prestations.create',compact('sites'));
+        $clients = Client::all();
+        return view('Admin.prestations.create',compact('clients'));
     }
 
     /**
@@ -43,22 +44,16 @@ class PrestationController extends Controller
         $validated = $request->validate([
 
             'name' => 'required|string',
-
             'pest_date' => 'required|date',
-            'duration_days' => 'required|integer|min:1',
-            'montant' => 'nullable|integer|min:1',
+            'pest_fin_date' => 'required|date',
             'type' => 'required|string',
-            'patr' => 'required',
-
-            'file' => 'nullable|file|mimes:pdf,jpg,png,doc,docx',
-        'site_id' => 'required'
+           'prest_debut_time' => 'required|date_format:H:i',
+    'prest_fin_time'   => 'required|date_format:H:i|after:prest_debut_time',
+        'client_id' => 'required'
 
         ]);
 
-        if ($request->hasFile('file')) {
-            $path = $request->file('file')->store('uploads', 'public');
-            $validated['file_path'] = $path;
-        }
+
 
         $validated['user_id'] = auth()->id();
 
@@ -70,6 +65,35 @@ class PrestationController extends Controller
 
     }
 
+    public function observe(Request $request, Prestation $prestation)
+    {
+        $validated = $request->validate([
+            'observation' => 'required|string|max:255',
+            'obs_debut_date' => 'required|date',
+            'obs_fin_date' => 'required|date',
+            'obs_debut_time' => 'required|date_format:H:i',
+            'obs_fin_time' => 'required|date_format:H:i|after:obs_debut_time',
+
+        ]);
+
+        // 🔹 Mise à jour des informations 
+        $prestation->update([
+            'observation' => $validated['observation'],
+            'obs_debut_date' => $validated['obs_debut_date'],
+            'obs_fin_date' => $validated['obs_fin_date'],
+            'obs_debut_time' => $validated['obs_debut_time'],
+            'obs_fin_time' => $validated['obs_fin_time'],
+
+
+        ]);
+
+
+
+
+        return redirect()->route('Admin.prestations.index')
+        ->with('success', 'Observation enregistrer avec succès.');
+       // return response()->json(['success' => true, 'message' => 'Abonnement résilié avec succès.']);
+    }
     /**
      * Display the specified resource.
      *
