@@ -150,7 +150,7 @@ Observation
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header bg-danger text-white">
-        <h5 class="modal-title">Résilier l’abonnement</h5>
+        <h5 class="modal-title">Observation sur Prestation</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
@@ -160,27 +160,27 @@ Observation
           <input type="hidden" id="resiliationPrestationId" name="prestation_id">
 
           <div class="mb-3">
-            <label>Motif</label>
-            <input type="text" name="motif" id="motif" class="form-control" required>
+            <label>Observation</label>
+            <input type="text" name="observation" id="observation" class="form-control" required>
           </div>
 
           <div class="mb-3">
-            <label>Date de résiliation</label>
-            <input type="date" name="date_res" id="date_res" class="form-control" required>
+            <label>Date dedut de la prestation</label>
+            <input type="date" name="obs_debut_date" id="obs_debut_date" class="form-control" required>
           </div>
 
           <div class="mb-3">
-            <label>Motif</label>
-            <input type="text" name="motif" id="motif" class="form-control" required>
+            <label>Heure debut prestation</label>
+            <input type="time" name="obs_debut_time" id="obs_debut_time" class="form-control" required>
           </div>
 
           <div class="mb-3">
-            <label>Date de résiliation</label>
-            <input type="date" name="date_res" id="date_res" class="form-control" required>
+            <label>Date fin de la prestation</label>
+            <input type="date" name="obs_fin_date" id="obs_fin_date" class="form-control" required>
           </div>
           <div class="mb-3">
-            <label>Date de résiliation</label>
-            <input type="date" name="date_res" id="date_res" class="form-control" required>
+            <label>Heure fin de la prestation</label>
+            <input type="time" name="obs_fin_time" id="obs_fin_time" class="form-control" required>
           </div>
 
 

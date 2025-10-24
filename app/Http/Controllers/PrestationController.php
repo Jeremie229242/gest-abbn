@@ -73,27 +73,15 @@ class PrestationController extends Controller
             'obs_fin_date' => 'required|date',
             'obs_debut_time' => 'required|date_format:H:i',
             'obs_fin_time' => 'required|date_format:H:i|after:obs_debut_time',
-
         ]);
 
-        // 🔹 Mise à jour des informations 
-        $prestation->update([
-            'observation' => $validated['observation'],
-            'obs_debut_date' => $validated['obs_debut_date'],
-            'obs_fin_date' => $validated['obs_fin_date'],
-            'obs_debut_time' => $validated['obs_debut_time'],
-            'obs_fin_time' => $validated['obs_fin_time'],
+        $prestation->observations()->create($validated);
 
-
-        ]);
-
-
-
-
-        return redirect()->route('Admin.prestations.index')
-        ->with('success', 'Observation enregistrer avec succès.');
-       // return response()->json(['success' => true, 'message' => 'Abonnement résilié avec succès.']);
+        return redirect()
+            ->route('Admin.prestations.index')
+            ->with('success', 'Observation enregistrée avec succès.');
     }
+
     /**
      * Display the specified resource.
      *

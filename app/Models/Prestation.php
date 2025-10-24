@@ -86,4 +86,10 @@ class Prestation extends Model
     {
         return $this->belongsTo(Client::class, 'client_id');
     }
+
+    public function observations()
+{
+    return $this->hasMany(PrestationObservation::class);
+}
+
 }
