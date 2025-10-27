@@ -63,6 +63,8 @@ Route::group([
     Route::post('/prestations/{prestation}/observation', [PrestationController::class, 'observe'])
     ->name('prestations.observation');
 
+    Route::patch('/planifications/{prestation}/toggle-position', [PlanificationController::class, 'togglePosition'])
+    ->name('planifications.toggle-position');
     Route::patch('/prestations/{prestation}/toggle-position', [PrestationController::class, 'togglePosition'])
     ->name('prestations.toggle-position');
     Route::get('prestations/{prestation}/download', [PrestationController::class, 'download'])->name('prestations.download');

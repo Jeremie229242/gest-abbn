@@ -154,10 +154,10 @@ class SubscriptionController extends Controller
         $sub = Subscription::findOrFail($id);
 
         $emails = Email::all();
-        $sites = Site::all();
+        $clients = Client::all();
 
 
-        return view('Admin.subscriptions.edit', compact('emails', 'sub' ,'sites'));
+        return view('Admin.subscriptions.edit', compact('emails', 'sub' ,'clients'));
 
     }
 

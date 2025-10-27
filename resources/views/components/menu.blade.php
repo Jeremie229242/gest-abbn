@@ -44,11 +44,11 @@
     </a>
         </li>
 
-<li>
+<!-- <li>
     <a href="{{ route('Admin.prestations.index') }}" class="dropdown-toggle no-arrow {{ isActiveRoute('Admin.prestations.index') }}">
         <span class="micon dw dw-apartment"></span><span class="mtext">Gestion Prestations</span>
     </a>
-</li>
+</li> -->
 
 <li class="dropdown {{ isActiveRoute(['Admin.planifications', 'Admin.prestations', 'Admin.clotures']) ? 'menu-open' : '' }}">
     <a href="javascript:;" class="dropdown-toggle {{ isActiveRoute(['Admin.planifications', 'Admin.prestations', 'Admin.clotures']) }}">
@@ -63,7 +63,7 @@
         <li><a class="nav-link {{ isActiveRoute('Admin.prestations.index') }}" href="{{ route('Admin.prestations.index') }}">Prestations</a></li>
         <li>
             <a class="nav-link {{ isActiveRoute('Admin.clotures.index') }}" href="{{ route('Admin.clotures.index') }}">
-                Utilisateur & Roles
+                Clotures
             </a>
         </li>
     </ul>

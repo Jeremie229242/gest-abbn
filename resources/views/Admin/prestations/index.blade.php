@@ -53,7 +53,7 @@
                                     <th>Type Prestation</th>
                                     <th>Durée</th>
                                     <th>Status</th>
-                                    <th>Montant</th>
+                                   
 
 									<th>Ajouter le</th>
                                     <th>Par</th>
@@ -93,9 +93,7 @@
         @endif
     </form>
 </td>
-<td>
-{{ $prest->montant }}
-</td>
+
 
 									<td>{{ $prest->created_at }}</td>
                                     <td>{{ $prest->user->name }}</td>
@@ -107,15 +105,10 @@
 											</a>
 											<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 												<a class="dropdown-item" href="{{ route('Admin.prestations.show', $prest->id) }}"><i class="dw dw-eye"></i> Voir</a>
-                                                @if($prest->file_path)
-                        <a href="{{ route('Admin.prestations.download', $prest) }}" class="dropdown-item"><i class="dw dw-download"></i>Télécharger</a>
-                    @else
-                        Aucun
-                    @endif
-												<a class="dropdown-item" href="{{ route('Admin.prestations.edit', $prest->id) }}"><i class="dw dw-edit2"></i> Modifier</a>
+
 
                                                 <a class="dropdown-item">
-
+                                                <i class="dw dw-delete-3"></i>
 
 <button class="btn btn-info "
 onclick="openResiliationModal({{ $prest->id }})">
