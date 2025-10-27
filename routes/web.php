@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ClotureController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +12,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\PersonnelController;
+use App\Http\Controllers\PlanificationController;
 use App\Http\Controllers\PrestationController;
 use App\Http\Controllers\SubscriptionController;
 use App\Models\Client;
@@ -48,6 +50,8 @@ Route::group([
 
     Route::resource('e-mails', EmailController::class);
     Route::resource('subscriptions', SubscriptionController::class);
+    Route::resource('planifications', PlanificationController::class);
+    Route::resource('clotures', ClotureController::class);
     Route::get('subscriptions/{subscription}/download', [SubscriptionController::class, 'download'])->name('subscriptions.download');
     Route::patch('/subscriptions/{subscription}/toggle-position', [SubscriptionController::class, 'togglePosition'])
     ->name('subscriptions.toggle-position');
