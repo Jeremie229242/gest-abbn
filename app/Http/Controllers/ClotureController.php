@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Prestation;
 use Illuminate\Http\Request;
 
 class ClotureController extends Controller
@@ -13,7 +14,8 @@ class ClotureController extends Controller
      */
     public function index()
     {
-        //
+        $clots = Prestation::where('status', 'Prestation clôturée')->get();
+        return view('Admin.clotures.index', compact('clots'));
     }
 
     /**

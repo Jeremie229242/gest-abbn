@@ -62,6 +62,8 @@ Route::group([
 
     Route::post('/prestations/{prestation}/observation', [PrestationController::class, 'observe'])
     ->name('prestations.observation');
+    Route::post('/prestations/{prestation}/cloture', [PrestationController::class, 'cloture'])
+    ->name('prestations.cloture');
 
     Route::patch('/planifications/{prestation}/toggle-position', [PlanificationController::class, 'togglePosition'])
     ->name('planifications.toggle-position');

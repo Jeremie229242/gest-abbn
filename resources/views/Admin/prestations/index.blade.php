@@ -53,7 +53,7 @@
                                     <th>Type Prestation</th>
                                     <th>Durée</th>
                                     <th>Status</th>
-                                   
+
 
 									<th>Ajouter le</th>
                                     <th>Par</th>
@@ -67,7 +67,6 @@
                                     <td class="table-plus">{{ $prest->client->rai_soci }}</td>
                                     <td class="table-plus">{{ $prest->pest_date->format('d/m/Y') }}</td>
 
-
                                     <td>
                                     {{ $prest->type }}
                 </td>
@@ -79,19 +78,14 @@
 
 <td>
     {{-- Bouton pour changer position --}}
-    <form action="{{ route('Admin.prestations.toggle-position', $prest->id) }}" method="POST">
-        @csrf
-        @method('PATCH')
-        @if($prest->status == "Prestation planifier")
-            <button type="submit" class="btn btn-sm btn-success">
-                🔄 Prestation planifier
-            </button>
-        @else
-            <span class="btn btn-sm btn-info">
+
+        @if($prest->status == "0")
+
+        <button class="btn btn-sm btn-info" onclick="openClotureModal({{ $prest->id }})">
                 ⏸️ Prestation en cour
-</span>
+                </button>
         @endif
-    </form>
+
 </td>
 
 
@@ -142,7 +136,7 @@ Observation
     <div class="modal fade" id="resiliationModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header bg-danger text-white">
+      <div class="modal-header bg-info text-white">
         <h5 class="modal-title">Observation sur Prestation</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
@@ -171,19 +165,66 @@ Observation
             <label>Date fin de la prestation</label>
             <input type="date" name="obs_fin_date" id="obs_fin_date" class="form-control" required>
           </div>
+
           <div class="mb-3">
             <label>Heure fin de la prestation</label>
             <input type="time" name="obs_fin_time" id="obs_fin_time" class="form-control" required>
           </div>
 
+          <button type="submit" class="btn btn-info w-100">Confirmer</button>
 
+        </form>
+      </div>
+    </div>
+  </div>
+    </div>
+
+
+
+
+
+
+
+  <div class="modal fade" id="clotureModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title">Cloture de la Prestation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <form method="POST" enctype="multipart/form-data">
+          @csrf
+          <input type="hidden" id="cloturePrestationId" name="prestation_id">
+
+          <div class="mb-3">
+            <label>Date facturation</label>
+            <input type="date" name="fac_date" id="obs_debut_date" class="form-control" required>
+          </div>
+
+
+
+          <div class="mb-3">
+            <label>Date cloture</label>
+            <input type="date" name="pestclot_date" id="obs_fin_date" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label>montant</label>
+            <input type="number" name="montant" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label>Choisir un fichier</label>
+            <div class="custom-file">
+			<input type="file" name="file" class="custom-file-input">
+			<label class="custom-file-label">Choisir un fichier</label>
+		</div>          </div>
           <button type="submit" class="btn btn-danger w-100">Confirmer</button>
         </form>
       </div>
     </div>
   </div>
-
-
 
 
 
@@ -232,5 +273,18 @@ function openResiliationModal(prestationId) {
 }
 </script>
 
+<script>
+function openClotureModal(prestationId) {
+    // Injecte l'ID dans le formulaire
+    document.getElementById('cloturePrestationId').value = prestationId;
 
+    // Met à jour dynamiquement l'action du formulaire
+    const form = document.querySelector('#clotureModal form');
+    form.action = `/Admin/prestations/${prestationId}/cloture`;
+
+    // Ouvre le modal
+    const modal = new bootstrap.Modal(document.getElementById('clotureModal'));
+    modal.show();
+}
+</script>
 @endsection

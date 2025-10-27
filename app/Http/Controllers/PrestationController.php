@@ -17,7 +17,7 @@ class PrestationController extends Controller
      */
     public function index()
     {
-        $prests = Prestation::all();
+        $prests = Prestation::where('status', '0')->get();
         return view('Admin.prestations.index', compact('prests'));
     }
 
@@ -82,6 +82,38 @@ class PrestationController extends Controller
             ->with('success', 'Observation enregistrée avec succès.');
     }
 
+
+
+    public function cloture(Request $request, Prestation $prestation)
+{
+    // ✅ Validation des champs
+    $validated = $request->validate([
+        
+        'pestclot_date' => 'required|date',
+        'fac_date' => 'required|date',
+
+        'file' => 'nullable|file|mimes:pdf,jpg,png,doc,docx',
+        'montant' => 'required',
+    ]);
+
+    // ✅ Upload du fichier (si présent)
+    if ($request->hasFile('file')) {
+        $path = $request->file('file')->store('uploads', 'public');
+        $validated['file_path'] = $path;
+    }
+
+    // ✅ Mettre à jour la prestation existante
+    $prestation->update([
+        ...$validated,
+        'status' => 'Prestation clôturée', // 🟢 Nouvelle valeur du statut
+    ]);
+
+    return redirect()
+        ->route('Admin.prestations.index')
+        ->with('success', 'Prestation clôturée avec succès ✅');
+}
+
+
     /**
      * Display the specified resource.
      *
@@ -90,7 +122,7 @@ class PrestationController extends Controller
      */
     public function show(Prestation $prestation)
     {
-        //
+        return view('Admin.prestations.show', compact('prestation'));
     }
     public function download(Prestation $prestation)
     {
