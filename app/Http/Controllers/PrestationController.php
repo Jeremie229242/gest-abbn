@@ -88,7 +88,7 @@ class PrestationController extends Controller
 {
     // ✅ Validation des champs
     $validated = $request->validate([
-        
+
         'pestclot_date' => 'required|date',
         'fac_date' => 'required|date',
 
@@ -144,6 +144,51 @@ class PrestationController extends Controller
     return back()->with('success', $message);
 }
 
+
+
+
+
+public function prestationsClotureesParClient()
+{
+    $clients = Client::whereHas('prestations', function ($query) {
+            $query->where('status', 'Prestation clôturée');
+        })
+        ->withCount([
+            'prestations as total_cloturees' => function ($query) {
+                $query->where('status', 'Prestation clôturée');
+            }
+        ])
+        ->withSum([
+            'prestations as montant_cloture' => function ($query) {
+                $query->where('status', 'Prestation clôturée');
+            }
+        ], 'montant')
+        ->orderByDesc('montant_cloture')
+        ->get();
+
+    return view('Admin.prestations.clients', compact('clients'));
+}
+
+
+
+public function detailsCloturees($clientId)
+{
+    $prestations = Prestation::with(['client', 'observations'])
+    ->where('client_id', $clientId)
+        ->where('status', 'Prestation clôturée')
+        ->get();
+
+    return view('Admin.prestations.details', compact('prestations'));
+}
+
+public function encours()
+{
+    $encours = Prestation::with(['client', 'observations'])
+    ->where('status', '0')
+        ->get();
+
+    return view('Admin.prestations.moi.encours', compact('encours'));
+}
 
     /**
      * Show the form for editing the specified resource.

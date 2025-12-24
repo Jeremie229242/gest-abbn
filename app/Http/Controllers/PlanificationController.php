@@ -149,4 +149,12 @@ class PlanificationController extends Controller
 
         return back()->with('success', 'Prestation supprime avec succes');
     }
+
+    public function plan()
+{
+    $plans = Prestation::where('status', 'Prestation planifier')
+        ->get();
+
+    return view('Admin.prestations.moi.plans', compact('plans'));
+}
 }

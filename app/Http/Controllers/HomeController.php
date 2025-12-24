@@ -1,9 +1,12 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Maintenances;
 use App\Models\Materiel;
+use App\Models\Prestation;
 use App\Models\Site;
+use App\Models\Subscription;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Notification;
@@ -27,30 +30,24 @@ class HomeController extends Controller
      public function index()
     {
 
-        // $emtotalor = (int) Materiel::where('ordi', "Ordinateur")->count();
-        // $emtotalim = (int) Materiel::where('ordi', "Imprimante")->count();
-        // $emtotalsc = (int) Materiel::where('ordi', "Scanner")->count();
-        // $emtotalorper = (int) Materiel::where('ordi', "Ordinateur")->where('personnel_id')->count();
-        // $ematotalor = (int) Maintenances::whereStatus('En Reparation')->count();
+        $client = Client::count();
 
-        // $sites = Site::select('id', 'nom')
-        // ->withCount([
-        //     'materiels as total_ordinateurs' => function ($q) {
-        //         $q->where('ordi', 'Ordinateur');
-        //     },
-        //     'materiels as total_scanners' => function ($q) {
-        //         $q->where('ordi', 'Scanner');
-        //     },
-        //     'materiels as total_imprimantes' => function ($q) {
-        //         $q->where('ordi', 'Imprimante');
-        //     },
-        // ])
-        // ->orderBy('nom')
-        // ->get();
+        $prestatt = Prestation::where('status', 'Prestation planifier')->count();
 
-        return view('dashboard');
+        $prestenco = Prestation::where('status', '0')->count();
+
+        $subsactif = Subscription::where('status', '1')->count();
+
+        $subsexp = Subscription::where('status', '0')->where('qnadb', '0')->count();
+
+        $prestclo = Prestation::where('status', 'Prestation clôturée')->count();
+
+        $prest = Prestation::count();
+
+        return view('dashboard', compact('client','prestatt', 'prestenco', 'prestclo', 'prest', 'subsactif', 'subsexp'));
     }
 
+    
     public function show($id)
     {
         $site = Site::with(['materiels' => function($query) {

@@ -1,5 +1,5 @@
 <div class="brand-logo">
-			<a href="index.html">
+			<a href="{{ route('dashboard') }}">
 				<img src="{{asset('v2/vendors/images/deskapp-logo.svg')}}" alt="" class="dark-logo">
 				<img src="{{asset('v2/vendors/images/deskapp-logo-white.svg')}}" alt="" class="light-logo">
 			</a>
@@ -44,11 +44,7 @@
     </a>
         </li>
 
-<!-- <li>
-    <a href="{{ route('Admin.prestations.index') }}" class="dropdown-toggle no-arrow {{ isActiveRoute('Admin.prestations.index') }}">
-        <span class="micon dw dw-apartment"></span><span class="mtext">Gestion Prestations</span>
-    </a>
-</li> -->
+
 
 <li class="dropdown {{ isActiveRoute(['Admin.planifications', 'Admin.prestations', 'Admin.clotures']) ? 'menu-open' : '' }}">
     <a href="javascript:;" class="dropdown-toggle {{ isActiveRoute(['Admin.planifications', 'Admin.prestations', 'Admin.clotures']) }}">
@@ -69,18 +65,26 @@
     </ul>
 </li>
 
-<!-- <li>
-    <a href="{{ route('Admin.e-mails.index') }}" class="dropdown-toggle no-arrow {{ isActiveRoute('Admin.e-mails.index') }}">
-        <span class="micon dw dw-paint-brush"></span><span class="mtext">Gestion Mail</span>
+
+
+<li class="dropdown {{ isActiveRoute(['Admin.subscriptions', 'Admin.invoices']) ? 'menu-open' : '' }}">
+    <a href="javascript:;" class="dropdown-toggle {{ isActiveRoute(['Admin.subscriptions', 'Admin.invoices']) }}">
+        <span class="micon dw dw-calendar1"></span><span class="mtext">Gestions Abbonnements</span>
     </a>
-</li> -->
-<li>
-    <a href="{{ route('Admin.subscriptions.index') }}" class="dropdown-toggle no-arrow {{ isActiveRoute('Admin.subscriptions.index') }}">
-        <span class="micon dw dw-calendar1"></span><span class="mtext">Gestion Souscrption</span>
-    </a>
+    <ul class="submenu">
+        <li>
+            <a class="nav-link {{ isActiveRoute('Admin.subscriptions.index') }}" href="{{ route('Admin.subscriptions.index') }}">
+                Souscriptions
+            </a>
+        </li>
+
+        <li>
+            <a class="nav-link {{ isActiveRoute('Admin.invoices.index') }}" href="{{ route('Admin.invoices.index') }}">
+                Factures
+            </a>
+        </li>
+    </ul>
 </li>
-
-
                     @endcan
 				</ul>
 			</div>

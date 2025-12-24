@@ -32,10 +32,16 @@ class SendSubscriptionReminders extends Command
         $adminEmails = array_filter(array_map('trim', explode(',', env('ADMIN_EMAILS', ''))));
 
         foreach ($subscriptions as $sub) {
-            $remindDate = Carbon::parse($sub->expiration_date)->subDays($sub->remind_before_days);
+           // $remindDate = Carbon::parse($sub->expiration_date)->subDays($sub->remind_before_days);
+           $expirationDate = Carbon::parse($sub->expiration_date);
+        $remindDate = $expirationDate->copy()
+            ->subDays($sub->remind_before_days);
 
             // Si c’est le jour du rappel
-            if ($today->equalTo($remindDate)) {
+            if (
+                $today->greaterThanOrEqualTo($remindDate) &&
+                $today->lessThanOrEqualTo($expirationDate)
+            ) {
                 $daysLeft = Carbon::parse($sub->expiration_date)->diffInDays($today);
 
                 // 1️⃣ Envoi à tous les emails liés au client

@@ -26,18 +26,16 @@ class Subscription extends Model
     protected $fillable = [
         'code',
         'name',
-
         'subscription_date',
         'expiration_date',
         'remind_before_days',
         'type',
-        'file_path',
+        'parent_id',
         'user_id',
         'client_id',
         'resilier',
         'motif',
-        'date_res',
-        'date_fac',
+'qnadb',
         'status',
         'position',
 
@@ -83,6 +81,29 @@ class Subscription extends Model
     {
         return $this->belongsTo(Client::class, 'client_id');
     }
+
+    public function invoices()
+{
+    return $this->hasMany(SubscriptionInvoice::class);
+}
+
+// Abonnement précédent
+public function parent()
+{
+    return $this->belongsTo(Subscription::class, 'parent_id');
+}
+
+// Renouvellements
+public function renewals()
+{
+    return $this->hasMany(Subscription::class, 'parent_id')
+        ->orderByDesc('subscription_date');
+}
+
+public function notifications()
+{
+    return $this->hasMany(SubscriptionNotification::class);
+}
 
 
 

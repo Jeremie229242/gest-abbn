@@ -47,12 +47,11 @@
 						<table class="table hover multiple-select-row data-table-export nowrap">
 							<thead>
 								<tr>
-									<th class="table-plus datatable-nosort">code</th>
-                                    <th>Raison social</th>
+
+                                    <th class="table-plus datatable-nosort">Raison social</th>
                                     <th>Ville</th>
                                     <th>Téléphone</th>
                                     <th>Intermediaire</th>
-
 									<th>Ajouter le</th>
                                     <th>Par</th>
 
@@ -62,8 +61,8 @@
 							<tbody>
                             @foreach($clients as $client)
 								<tr>
-									<td class="table-plus">{{ $client->code }}</td>
-                                    <td>{{ $client->rai_soci }}</td>
+									
+                                    <td class="table-plus">{{ $client->rai_soci }}</td>
                                     <td>{{ $client->ville }}</td>
                                     <td>{{ $client->numero }}</td>
                                     <td>{{ $client->inter_prin }}</td>

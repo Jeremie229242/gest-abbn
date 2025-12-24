@@ -52,10 +52,10 @@
                                     <th>Date exp</th>
                                     <th>Jours restants</th>
                                     <th>Type Abbn</th>
-                                    <th>Status</th>
+
                                     <th>Position</th>
 
-                                    <th>Mails</th>
+                                    <!-- <th>Mails</th> -->
 									<th>Ajouter le</th>
                                     <th>Par</th>
                                     <th class="datatable-nosort">Action</th>
@@ -67,33 +67,31 @@
 									<td class="table-plus">{{ $sub->code }}</td>
                                     <td class="table-plus">{{ $sub->subscription_date->format('d/m/Y') }}</td>
                                     <td class="table-plus">{{ $sub->expiration_date->format('d/m/Y') }}</td>
-                                    <td class="days-left"
+                                    <td > <span class="days-left"
                     data-expiration="{{ $sub->expiration_date }}"
-                    data-remind="{{ $sub->remind_before_days }}">
+                    data-remind="{{ $sub->remind_before_days }}"></span>
                     <!-- Le JS calculera et colorera -->
                 </td>
                                     <td>
                                     {{ $sub->type }}
                 </td>
-                <td>
+                 <td>
     {{-- Statut d’abonnement --}}
-    @if($sub->status)
-        <span class="badge bg-success">🟢 Actif</span>
-    @else
-        <span class="badge bg-danger">🔴 Expiré</span>
-    @endif
+    <span class="badge bg-{{ $sub->status ? 'success' : 'danger' }}">
+                    {{ $sub->status ? 'Actif' : 'Inactif' }}
+                </span>
 </td>
 
-<td>
+<!-- <td>
     {{-- Envoi de mails --}}
     @if($sub->position)
         <span class="badge bg-secondary">⏸️ Envoi stoppé</span>
     @else
         <span class="badge bg-info">📧 Envoi actif</span>
     @endif
-</td>
+</td> -->
 
-<td>
+<!-- <td>
     {{-- Bouton pour changer position --}}
     <form action="{{ route('Admin.subscriptions.toggle-position', $sub->id) }}" method="POST">
         @csrf
@@ -108,7 +106,7 @@
             </button>
         @endif
     </form>
-</td>
+</td> -->
 
 									<td>{{ $sub->created_at }}</td>
                                     <td>{{ $sub->user->name }}</td>
@@ -251,7 +249,7 @@ document.addEventListener("DOMContentLoaded", function () {
         el.textContent = label;
         el.style.color = color;
         el.style.backgroundColor = bg;
-        el.style.padding = "4px 8px";
+        el.style.padding = "8px 8px";
         el.style.borderRadius = "6px";
         el.style.fontWeight = "bold";
         el.style.textAlign = "center";

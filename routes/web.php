@@ -15,6 +15,7 @@ use App\Http\Controllers\PersonnelController;
 use App\Http\Controllers\PlanificationController;
 use App\Http\Controllers\PrestationController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\SubscriptionInvoiceController;
 use App\Models\Client;
 use App\Models\Prestation;
 
@@ -38,10 +39,8 @@ Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified
 
 
 
-Route::group([
-    "prefix" => "Admin",
-    'as' => 'Admin.'
-], function(){
+Route::middleware(['auth'])->group(function () {
+    Route::prefix('Admin')->as('Admin.')->group(function () {
     Route::resource('roles', RoleController::class);
 
     Route::resource('utilisateurs', UserController::class);
@@ -50,6 +49,7 @@ Route::group([
 
     Route::resource('e-mails', EmailController::class);
     Route::resource('subscriptions', SubscriptionController::class);
+    Route::resource('invoices', SubscriptionInvoiceController::class);
     Route::resource('planifications', PlanificationController::class);
     Route::resource('clotures', ClotureController::class);
     Route::get('subscriptions/{subscription}/download', [SubscriptionController::class, 'download'])->name('subscriptions.download');
@@ -73,7 +73,39 @@ Route::group([
 
 
     Route::get('/rapport/{id}', [HomeController::class, 'show'])->name('sites.rapport');
+
 });
+});
+
+
+
+Route::get('/prestations/clients', [PrestationController::class, 'prestationsClotureesParClient'])->name('Admin.prestations.clients');
+Route::get('/prestations/{client}',
+    [PrestationController::class, 'detailsCloturees']
+)->name('Admin.prestations.details');
+Route::get('/prestations/moi/encours', [PrestationController::class, 'encours'])->name('Admin.prestations.moi.encours');
+Route::get('/prestations/moi/plans', [PlanificationController::class, 'plan'])->name('Admin.prestations.moi.plans');
+Route::get('/prestations/moi/clotures', [ClotureController::class, 'clotureees'])->name('Admin.prestations.moi.clotures');
+Route::patch(
+    '/invoices/{invoice}/status',
+    [SubscriptionInvoiceController::class, 'updateStatus']
+)->name('Admin.invoices.updateStatus');
+
+
+
+Route::get('/subscriptions/{subscription}/renew',
+    [SubscriptionController::class, 'renewForm']
+)->name('Admin.subscriptions.renew');
+
+
+
+Route::post('/subscriptions/{subscription}/renew',
+    [SubscriptionController::class, 'renewStore']
+)->name('Admin.subscriptions.renew.store');
+
+Route::get('/subscriptions/moi/actifs', [SubscriptionController::class, 'actif'])->name('Admin.subscriptions.moi.actifs');
+Route::get('/subscriptions/moi/expires', [SubscriptionController::class, 'expire'])->name('Admin.subscriptions.moi.expires');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

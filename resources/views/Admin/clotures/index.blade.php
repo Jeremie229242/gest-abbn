@@ -47,7 +47,8 @@
 								<tr>
 									<th class="table-plus datatable-nosort">code</th>
                                     <th>Societé</th>
-                                    <th>Date Prestation</th>
+                                    <th>Debut</th>
+                                    <th>Fin</th>
                                     <th>Type Prestation</th>
                                     <th>Durée</th>
                                     <th>Status</th>
@@ -64,12 +65,13 @@
 									<td class="table-plus">{{ $clot->code }}</td>
                                     <td class="table-plus">{{ $clot->client->rai_soci }}</td>
                                     <td class="table-plus">{{ $clot->pest_date->format('d/m/Y') }}</td>
-
+                                    <td class="table-plus">{{ $clot->pestclot_date }}</td>
                                     <td>
                                     {{ $clot->type }}
                 </td>
-                <td>
-                {{ $clot->duration_days }}
+                <td class="duration-cell" data-start="{{ $clot->pest_date }}"
+                data-end="{{ $clot->pestclot_date }}">
+                -
 </td>
 
 
@@ -160,6 +162,21 @@
         });
     </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll('.duration-cell').forEach(cell => {
+        const start = new Date(cell.dataset.start);
+        const end = new Date(cell.dataset.end);
 
+        if (!isNaN(start) && !isNaN(end)) {
+            const diffTime = end - start;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            cell.textContent = diffDays + " jour" + (diffDays > 1 ? "s" : "");
+        } else {
+            cell.textContent = "—";
+        }
+    });
+});
+</script>
 
 @endsection

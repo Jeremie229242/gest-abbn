@@ -105,13 +105,43 @@ class ClientController extends Controller
      */
     public function update(UpdateSiteRequest $request, Client $client)
     {
-        $request->merge([ 'user_id'=> auth()->id()]);
-        $request->validated($request->all());
+        // 1️⃣ Ajoute l'ID de l'utilisateur connecté
+        $request->merge(['user_id' => auth()->id()]);
 
-        $client->update($request->all());
+        // 2️⃣ Récupère uniquement les données validées
+        $validated = $request->validated();
 
-        return redirect()->route('Admin.clients.index')->with('success', 'Client modifié avec succes');
+        // 3️⃣ Mise à jour du client
+        $client->update($validated);
+
+        // 4️⃣ Gestion des emails multiples
+        if (!empty($request->email)) {
+            $emails = array_filter(array_map('trim', explode(',', $request->email)));
+            $emailIds = [];
+            foreach ($emails as $mail) {
+                $email = Email::firstOrCreate(
+                    ['email' => $mail],
+                    [
+                        'code' => uniqid('em_'),
+                        'name' => $mail,
+                        'user_id' => auth()->id(),
+                        'client_id' => $client->id,
+                    ]
+                );
+                $emailIds[] = $email->id;
+
+
+            }
+            //$client->emails()->syncWithoutDetaching([$email->id]);
+            $client->emails()->sync($emailIds);
+        }
+
+        // 5️⃣ Retour
+        return redirect()
+            ->route('Admin.clients.index')
+            ->with('success', 'Client modifié avec succès ✅');
     }
+
 
     /**
      * Remove the specified resource from storage.

@@ -51,7 +51,7 @@
                                     <th>Societé</th>
                                     <th>Date Prestation</th>
                                     <th>Type Prestation</th>
-                                    <th>Durée</th>
+
                                     <th>Status</th>
 									<th>Ajouter le</th>
                                     <th>Par</th>
@@ -67,9 +67,7 @@
                                     <td>
                                     {{ $plan->type }}
                 </td>
-                <td>
-                {{ $plan->duration_days }}
-</td>
+               
 
 
 
@@ -101,7 +99,7 @@
 											</a>
 											<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 												<a class="dropdown-item" href="{{ route('Admin.planifications.show', $plan->id) }}"><i class="dw dw-eye"></i> Voir</a>
-                                              
+
 												<a class="dropdown-item" href="{{ route('Admin.planifications.edit', $plan->id) }}"><i class="dw dw-edit2"></i> Modifier</a>
 
 

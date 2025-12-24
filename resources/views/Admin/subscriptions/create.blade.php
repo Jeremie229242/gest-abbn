@@ -121,28 +121,9 @@
 </div>
 </div>
 
-<div class="row">
-<div class="col-md-12">
-                                    <div class="form-group">
-            <label for="name">Date de Facturation:</label>
-            <input type="date" name="date_fac" id="" class="form-control" required>
 
-        </div>
-									</div>
-</div>
 
-                                    <div class="row">
-									<div class="col-md-12">
-                                    <div class="form-group">
-		<label>Document</label>
-		<div class="custom-file">
-			<input type="file" name="file" class="custom-file-input">
-			<label class="custom-file-label">Choisir un fichier</label>
-		</div>
-	</div>
-									</div>
 
-								</div>
 
 
 

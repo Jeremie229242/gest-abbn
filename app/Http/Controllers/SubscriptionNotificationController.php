@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Prestation;
+use App\Models\SubscriptionNotification;
 use Illuminate\Http\Request;
 
-class ClotureController extends Controller
+class SubscriptionNotificationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,11 @@ class ClotureController extends Controller
      */
     public function index()
     {
-        $clots = Prestation::where('status', 'Prestation clôturée')->get();
-        return view('Admin.clotures.index', compact('clots'));
+        $notifications = SubscriptionNotification::with('subscription.client')
+            ->orderByDesc('sent_at')
+            ->get();
+
+        return view('Admin.notifications.index', compact('notifications'));
     }
 
     /**
@@ -27,14 +30,7 @@ class ClotureController extends Controller
     {
         //
     }
-    public function clotureees()
-    {
-        $clotures = Prestation::with(['client', 'observations'])
-        ->where('status', 'Prestation clôturée')
-            ->get();
 
-        return view('Admin.prestations.moi.clotures', compact('clotures'));
-    }
     /**
      * Store a newly created resource in storage.
      *
@@ -49,10 +45,10 @@ class ClotureController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\SubscriptionNotification  $subscriptionNotification
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(SubscriptionNotification $subscriptionNotification)
     {
         //
     }
@@ -60,10 +56,10 @@ class ClotureController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\SubscriptionNotification  $subscriptionNotification
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(SubscriptionNotification $subscriptionNotification)
     {
         //
     }
@@ -72,10 +68,10 @@ class ClotureController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\SubscriptionNotification  $subscriptionNotification
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, SubscriptionNotification $subscriptionNotification)
     {
         //
     }
@@ -83,15 +79,11 @@ class ClotureController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\SubscriptionNotification  $subscriptionNotification
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(SubscriptionNotification $subscriptionNotification)
     {
-        $clot = Prestation::findOrFail($id);
-        $clot->delete();
-
-        return back()->with('success', 'Prestation supprimée avec succès ✅');
+        //
     }
-
 }

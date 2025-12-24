@@ -53,15 +53,15 @@
 							<div class="card-box pricing-card mt-30 mb-30">
 
 								<div class="price-title">
-                               Detail
+                               Detail des Observations
 								</div>
                                 @foreach($prestation->observations as $obs)
 								<div class="text">
-                                {{ $obs->observation }}
-            (du {{ $obs->obs_debut_date }} à {{ $obs->obs_debut_time }}
-            au {{ $obs->obs_fin_date }} à {{ $obs->obs_fin_time }})
+                                {{ $obs->observation }} <br>
+            du {{ \Carbon\Carbon::parse($obs->obs_debut_date)->translatedFormat('d M Y') }} à {{ $obs->obs_debut_time }}
+            au {{ \Carbon\Carbon::parse($obs->obs_fin_date)->translatedFormat('d M Y') }} à {{ $obs->obs_fin_time }}
 								</div>
-      
+
     @endforeach
 							</div>
 						</div>

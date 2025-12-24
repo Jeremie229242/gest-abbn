@@ -27,12 +27,7 @@
 							</nav>
 						</div>
 						<div class="col-md-6 col-sm-12 text-right">
-							<div class="dropdown">
-								<a class="btn btn-primary" href="{{ route('Admin.prestations.create') }}">
-									Ajouter
-								</a>
 
-							</div>
 						</div>
 					</div>
 				</div>
@@ -51,7 +46,7 @@
                                     <th>Societé</th>
                                     <th>Date Prestation</th>
                                     <th>Type Prestation</th>
-                                    <th>Durée</th>
+
                                     <th>Status</th>
 
 
@@ -70,9 +65,7 @@
                                     <td>
                                     {{ $prest->type }}
                 </td>
-                <td>
-                {{ $prest->duration_days }}
-</td>
+
 
 
 
@@ -102,7 +95,7 @@
 
 
                                                 <a class="dropdown-item">
-                                                <i class="dw dw-delete-3"></i>
+
 
 <button class="btn btn-info "
 onclick="openResiliationModal({{ $prest->id }})">
@@ -144,7 +137,7 @@ Observation
       <div class="modal-body">
         <form method="POST">
           @csrf
-          <input type="hidden" id="resiliationPrestationId" name="prestation_id">
+          <input type="hidden" id="resiliationPrestationId">
 
           <div class="mb-3">
             <label>Observation</label>

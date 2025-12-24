@@ -20,7 +20,7 @@
             <div class="col-md-6 col-sm-12 text-right">
                 <div class="dropdown">
                     <a class="btn btn-primary" href="{{ route('Admin.subscriptions.index') }}">
-                        Liste Maintenances
+                        Liste Abonnements
                     </a>
                 </div>
             </div>
@@ -54,8 +54,8 @@
 									</div>
                                     <div class="col-md-6">
                                     <div class="form-group">
-            <label for="name">Entite:</label>
-            <input type="text" name="entity" id="entity" value="{{ old('entity', $sub->entity) }}" class="form-control" required>
+            <label for="name">Nom Abonnement:</label>
+            <input type="date" name="date_fac" id="date_fac" class="form-control" value="{{ old('date_fac', $sub->date_fac) }}" required>
 
         </div>
 									</div>
@@ -172,11 +172,11 @@
     <div class="col-md-12">
         <div class="form-group">
             <label>Societe :</label>
-            <select name="site_id" class="selectpicker form-control">
-                @foreach(\App\Models\Site::all() as $site)
-                    <option value="{{ $site->id }}"
-                        @if(isset($sub) && $sub->site_id == $site->id) selected @endif>
-                        {{ $site->nom ?? $site->id }}
+            <select name="client_id" class="selectpicker form-control">
+                @foreach(\App\Models\Client::all() as $client)
+                    <option value="{{ $client->id }}"
+                        @if(isset($sub) && $sub->client_id == $client->id) selected @endif>
+                        {{ $client->rai_soci ?? $client->id }}
                     </option>
                 @endforeach
             </select>
@@ -185,29 +185,7 @@
 </div>
 
 
-<div class="row">
-<div class="col-md-12">
-<div class="form-group">
-    <label>Email de rappel:</label>
-    <select name="emails[]" id="emails" class="selectpicker form-control" multiple>
-        @foreach(\App\Models\Email::all() as $email)
-            <option value="{{ $email->email }}"
-                @if(isset($sub) && $sub->emails->contains('email', $email->email)) selected @endif>
-                {{ $email->email }}
-            </option>
-        @endforeach
-    </select>
-    <small class="text-muted">Maintenez CTRL (ou CMD sur Mac) pour sélectionner plusieurs emails</small>
-</div>
-</div>
-</div>
 
-<div class="form-group mt-3">
-    <label for="new_emails">Nouveaux emails (séparés par des virgules) :</label>
-    <input type="text" name="new_emails" id="new_emails" class="form-control"
-           placeholder="ex: test1@mail.com, test2@mail.com">
-    <small class="text-muted">Tu peux entrer plusieurs emails séparés par une virgule</small>
-</div>
 							</section>
 
                 <div class="modal-footer justify-content-center">

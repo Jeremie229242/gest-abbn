@@ -21,7 +21,7 @@ class Client extends Model
         'deleted_at',
     ];
     protected $fillable = [
-        
+
         'rai_soci',
         'intitule',
         'adresse',
@@ -44,5 +44,15 @@ class Client extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function subscriptions()
+{
+    return $this->hasMany(Subscription::class);
+}
+
+    public function prestations()
+{
+    return $this->hasMany(Prestation::class);
+}
 
 }

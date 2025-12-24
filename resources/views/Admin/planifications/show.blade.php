@@ -38,7 +38,13 @@
 <b>Date fin de prestation</b> <a class="float-right">{{ $planification->pest_fin_date }}</a>
 </li>
 <li class="list-group-item">
-<b>Status </b> <a class="float-right">{{ $planification->status }}</a>
+<b>Heure  debut prestation</b> <a class="float-right">{{ $planification->prest_debut_time }}</a>
+</li>
+<li class="list-group-item">
+<b>Heure fin de prestation</b> <a class="float-right">{{ $planification->prest_fin_time }}</a>
+</li>
+<li class="list-group-item">
+<b>Status </b> <a class="float-right"><span class="badge bg-success">{{ $planification->status }}</span></a>
 </li>
 <li class="list-group-item">
 <b>Type de prestaion</b> <a class="float-right">{{ $planification->type }}</a>
@@ -48,22 +54,7 @@
 
 
 
-<div class="row">
-						<div class="col-md-12 mb-30">
-							<div class="card-box pricing-card mt-30 mb-30">
 
-								<div class="price-title">
-                               Detail
-								</div>
-
-								<div class="text">
-                                0
-								</div>
-
-							</div>
-						</div>
-
-					</div>
 
 
 
