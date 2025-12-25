@@ -52,7 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('invoices', SubscriptionInvoiceController::class);
     Route::resource('planifications', PlanificationController::class);
     Route::resource('clotures', ClotureController::class);
-    Route::get('subscriptions/{subscription}/download', [SubscriptionController::class, 'download'])->name('subscriptions.download');
+    Route::get('invoices/{subscriptionInvoice}/download', [SubscriptionInvoiceController::class, 'download'])->name('invoices.download');
     Route::patch('/subscriptions/{subscription}/toggle-position', [SubscriptionController::class, 'togglePosition'])
     ->name('subscriptions.toggle-position');
     Route::resource('prestations',   PrestationController::class);
@@ -105,6 +105,15 @@ Route::post('/subscriptions/{subscription}/renew',
 
 Route::get('/subscriptions/moi/actifs', [SubscriptionController::class, 'actif'])->name('Admin.subscriptions.moi.actifs');
 Route::get('/subscriptions/moi/expires', [SubscriptionController::class, 'expire'])->name('Admin.subscriptions.moi.expires');
+
+
+// Page édition toutes les observations d’un diagnostic
+Route::get('/prestations/{prestation}/observations/edit', [PrestationController::class, 'editObservations'])
+    ->name('Admin.prestations.observations.edit');
+
+// Mise à jour des observations
+Route::put('/prestations/{prestation}/observations', [PrestationController::class, 'updateObservations'])
+    ->name('Admin.prestations.observations.update');
 
 
 Route::middleware('auth')->group(function () {

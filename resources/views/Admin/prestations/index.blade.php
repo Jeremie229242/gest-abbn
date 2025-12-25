@@ -104,7 +104,15 @@ Observation
 
 
 </a>
+@if($prest->observations->isNotEmpty())
 
+    <a href="{{ route('Admin.prestations.observations.edit', $prest->id) }}"
+    class="btn btn-info">
+        Modifier observation
+    </a>
+@else
+    <span class="badge bg-secondary">Aucune observation</span>
+@endif
                                                 <a class="dropdown-item" ><i class="dw dw-delete-3"></i>
                                                 <form action="{{ route('Admin.prestations.destroy', $prest->id) }}" method="POST" style="display: inline">
                                 @csrf

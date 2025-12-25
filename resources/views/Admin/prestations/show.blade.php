@@ -38,7 +38,10 @@
 <b>Date fin de prestation</b> <a class="float-right">{{ $prestation->pest_fin_date }}</a>
 </li>
 <li class="list-group-item">
-<b>Status </b> <a class="float-right">{{ $prestation->status }}</a>
+<b>Status </b>
+@if($prestation->status == "0")
+<a class="float-right"><span class="badge bg-info">Prestation encours</span></a>
+@endif
 </li>
 <li class="list-group-item">
 <b>Type de prestaion</b> <a class="float-right">{{ $prestation->type }}</a>

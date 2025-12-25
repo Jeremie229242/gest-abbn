@@ -44,16 +44,16 @@
 <b>Type subscription</b> <a class="float-right">{{ $subscription->type }}</a>
 </li>
 <li class="list-group-item">
-<b>Date Facturation</b> <a class="float-right">
 
 
-@if(!$subscription->status)
-<button class="btn btn-success btn-sm"
+
+
+<button class="btn btn-success btn-sm float-right"
         data-bs-toggle="modal"
         data-bs-target="#renewModal{{ $subscription->id }}">
     🔁 Renouveler
 </button>
-@endif
+
 
 
 </a>
@@ -101,7 +101,7 @@
                     <th>Période</th>
                     <th>Statut</th>
                     <th>Type</th>
-                    
+
                 </tr>
             </thead>
             <tbody>

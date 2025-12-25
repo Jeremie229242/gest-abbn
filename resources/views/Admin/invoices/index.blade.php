@@ -47,33 +47,29 @@
 						<table class="table hover multiple-select-row data-table-export nowrap">
 							<thead>
 								<tr>
-									<th class="table-plus datatable-nosort">code</th>
+									<th class="table-plus datatable-nosort">client</th>
                                     <th>Date Facturation</th>
 
-                                    <th>Jours restants</th>
-                                    <th>Type Abbn</th>
 
-                                    <th>Position</th>
+
+
+
+                                    <th>Statut</th>
                                     <th>Action</th>
                                     <!-- <th>Mails</th> -->
 									<th>Ajouter le</th>
 
-                                    <th class="datatable-nosort">Action</th>
+                                    <th class="datatable-nosort">---</th>
 								</tr>
 							</thead>
 							<tbody>
                             @foreach($invoices as $sub)
 								<tr>
-									<td class="table-plus">{{ $sub->invoice_number }}</td>
+									<td class="table-plus">{{ $sub->client->rai_soci }}</td>
                                     <td class="table-plus">{{ $sub->invoice_date->format('d/m/Y') }}</td>
-                                    <td > <span class="days-left"
-                    data-expiration="{{ $sub->expiration_date }}"
-                    data-remind="{{ $sub->remind_before_days }}"></span>
-                    <!-- Le JS calculera et colorera -->
-                </td>
-                                    <td>
-                                    {{ $sub->type }}
-                </td>
+
+
+
                  <td>
     {{-- Statut d’abonnement --}}
     @php
@@ -169,13 +165,13 @@
 												<i class="dw dw-more"></i>
 											</a>
 											<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-												<a class="dropdown-item" href="{{ route('Admin.subscriptions.show', $sub->id) }}"><i class="dw dw-eye"></i> Voir</a>
+												<!-- <a class="dropdown-item" href="{{ route('Admin.subscriptions.show', $sub->id) }}"><i class="dw dw-eye"></i> Voir</a> -->
                                                 @if($sub->file_path)
-                        <a href="{{ route('Admin.subscriptions.download', $sub) }}" class="dropdown-item"><i class="dw dw-download"></i>Télécharger</a>
+                        <a href="{{ route('Admin.invoices.download', $sub) }}" class="dropdown-item"><i class="dw dw-download"></i>Télécharger</a>
                     @else
                         Aucun
                     @endif
-												<a class="dropdown-item" href="{{ route('Admin.subscriptions.edit', $sub->id) }}"><i class="dw dw-edit2"></i> Modifier</a>
+												<!-- <a class="dropdown-item" href="{{ route('Admin.subscriptions.edit', $sub->id) }}"><i class="dw dw-edit2"></i> Modifier</a> -->
 
 												<a class="dropdown-item">
 

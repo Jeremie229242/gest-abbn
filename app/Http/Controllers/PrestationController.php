@@ -190,6 +190,36 @@ public function encours()
     return view('Admin.prestations.moi.encours', compact('encours'));
 }
 
+
+
+
+
+public function editObservations(Prestation $prestation)
+{
+    $prestation->load('observations'); // charger toutes les observations liées
+    return view('Admin.prestations.observations.edit', compact('prestation'));
+}
+
+public function updateObservations(Request $request, Prestation $prestation)
+{
+    foreach ($prestation->observations as $obs) {
+        $data = $request->input("observations.{$obs->id}");
+
+        if ($data) {
+            $obs->update([
+
+                'observation' => $data['observation'],
+                'obs_debut_date' => $data['obs_debut_date'],
+                'obs_fin_date' => $data['obs_fin_date'],
+                'obs_debut_time' => $data['obs_debut_time'],
+                'obs_fin_time' => $data['obs_fin_time'],
+            ]);
+        }
+    }
+
+    return redirect()->route('Admin.prestations.index')
+        ->with('message', 'Observations modifiées avec succès ✏️');
+}
     /**
      * Show the form for editing the specified resource.
      *

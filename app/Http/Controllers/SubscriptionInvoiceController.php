@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Subscription;
 use App\Models\SubscriptionInvoice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SubscriptionInvoiceController extends Controller
 {
@@ -118,6 +119,13 @@ class SubscriptionInvoiceController extends Controller
         //
     }
 
+    public function download(SubscriptionInvoice $subscriptionInvoice)
+    {
+        if ($subscriptionInvoice->file_path) {
+            return Storage::disk('public')->download($subscriptionInvoice->file_path);
+        }
+        return back()->with('error', 'Aucun fichier disponible.');
+    }
     /**
      * Update the specified resource in storage.
      *
