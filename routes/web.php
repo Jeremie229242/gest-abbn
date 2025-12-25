@@ -86,6 +86,8 @@ Route::get('/prestations/{client}',
 Route::get('/prestations/moi/encours', [PrestationController::class, 'encours'])->name('Admin.prestations.moi.encours');
 Route::get('/prestations/moi/plans', [PlanificationController::class, 'plan'])->name('Admin.prestations.moi.plans');
 Route::get('/prestations/moi/clotures', [ClotureController::class, 'clotureees'])->name('Admin.prestations.moi.clotures');
+
+
 Route::patch(
     '/invoices/{invoice}/status',
     [SubscriptionInvoiceController::class, 'updateStatus']
@@ -106,6 +108,7 @@ Route::post('/subscriptions/{subscription}/renew',
 Route::get('/subscriptions/moi/actifs', [SubscriptionController::class, 'actif'])->name('Admin.subscriptions.moi.actifs');
 Route::get('/subscriptions/moi/expires', [SubscriptionController::class, 'expire'])->name('Admin.subscriptions.moi.expires');
 
+Route::get('/invoices/client', [SubscriptionInvoiceController::class, 'client'])->name('Admin.invoices.client');
 
 // Page édition toutes les observations d’un diagnostic
 Route::get('/prestations/{prestation}/observations/edit', [PrestationController::class, 'editObservations'])

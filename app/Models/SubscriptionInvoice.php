@@ -35,6 +35,8 @@ class SubscriptionInvoice extends Model
         return $this->belongsTo(Subscription::class);
     }
 
+
+    
     public function client()
     {
         return $this->belongsTo(Client::class);

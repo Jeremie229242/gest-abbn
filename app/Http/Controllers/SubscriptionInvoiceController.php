@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Subscription;
 use App\Models\SubscriptionInvoice;
 use Illuminate\Http\Request;
@@ -96,6 +97,23 @@ class SubscriptionInvoiceController extends Controller
         return back()->with('message', 'Statut de la facture mis à jour');
     }
 
+
+    public function client(Request $request)
+    {
+        $clients = Client::orderBy('rai_soci')->get();
+
+        $invoices = SubscriptionInvoice::with(['client', 'subscription'])
+            ->when($request->client_id, function ($query) use ($request) {
+                $query->where('client_id', $request->client_id);
+            })
+            ->when($request->status, function ($query) use ($request) {
+                $query->where('status', $request->status);
+            })
+            ->orderByDesc('invoice_date')
+            ->get();
+
+        return view('Admin.invoices.client', compact('clients', 'invoices'));
+    }
 
     /**
      * Display the specified resource.

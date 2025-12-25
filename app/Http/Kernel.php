@@ -59,11 +59,10 @@ class Kernel extends HttpKernel
 
 
         'auth.admin' => \App\Http\Middleware\AdminMiddleware::class,
-        'auth.GestCarb' => \App\Http\Middleware\GestCarbMiddleware::class,
-        'auth.GestParc' => \App\Http\Middleware\GestParcMiddleware::class,
-        'auth.GestDoc' => \App\Http\Middleware\GestDocMiddleware::class,
-        'auth.Maint' => \App\Http\Middleware\MaintMiddleware::class,
-        'auth.superadmin' => \App\Http\Middleware\SuperAdminMiddleware::class,
+       'auth.GC' => \App\Http\Middleware\GestionnaireClient::class,
+        'auth.GP' => \App\Http\Middleware\GestionnairePrestation::class,
+        'auth.GS' => \App\Http\Middleware\GestionnaireSouscription::class,
+
 
 
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,

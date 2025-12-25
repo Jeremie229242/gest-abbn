@@ -169,7 +169,7 @@
                                                 @if($sub->file_path)
                         <a href="{{ route('Admin.invoices.download', $sub) }}" class="dropdown-item"><i class="dw dw-download"></i>Télécharger</a>
                     @else
-                        Aucun
+                        Aucun fichier
                     @endif
 												<!-- <a class="dropdown-item" href="{{ route('Admin.subscriptions.edit', $sub->id) }}"><i class="dw dw-edit2"></i> Modifier</a> -->
 
