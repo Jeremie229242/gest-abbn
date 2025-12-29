@@ -1,22 +1,31 @@
 
+
+
+
+
 @component('mail::message')
-# Rappel d’abonnement
 
-Bonjour,
+Bonjour {{ $subscription->client->rai_soci }},
 
-Votre abonnement **{{ $subscription->type }}** lié à **{{ $subscription->entity }}** va expirer le **{{ $subscription->expiration_date->format('d/m/Y') }}**.
+Ceci est un rappel concernant votre abonnement **{{ $subscription->type }}** lié à **{{ $subscription->name }}**
+qui expirera le **{{ $subscription->expiration_date->format('d/m/Y') }}**.
 
 <p>
             Pour éviter toute interruption de service, nous vous invitons à renouveler votre abonnement dès que possible.
         </p>
 
-@component('mail::button', ['url' => url('/Admin/subscriptions/'.$subscription->id)])
-Voir l’abonnement
-@endcomponent
+Si vous avez des questions, vous pouvez nous contacter.
 
 Cordialement,
-**L’équipe Gestion Abonnements**
+**ParcSoft**
+📧 support@parcsoft.com
+🌐 https://parcsoft.com
+
 @endcomponent
+
+
+
+
 
 
 

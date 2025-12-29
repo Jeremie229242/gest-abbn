@@ -12,8 +12,6 @@ use Carbon\Carbon;
 
 
 
-
-
 class SendSubscriptionReminders extends Command
 {
     protected $signature = 'subscriptions:send-reminders';
@@ -23,52 +21,56 @@ class SendSubscriptionReminders extends Command
     {
         $today = Carbon::today();
 
-        // On récupère toutes les subscriptions avec leurs relations
         $subscriptions = Subscription::where('status', true)
             ->with(['client.emails', 'client.user'])
             ->get();
 
-        // Emails des administrateurs depuis le .env
-        $adminEmails = array_filter(array_map('trim', explode(',', env('ADMIN_EMAILS', ''))));
+        $adminEmails = array_filter(
+            array_map('trim', explode(',', env('ADMIN_EMAILS', '')))
+        );
 
         foreach ($subscriptions as $sub) {
-           // $remindDate = Carbon::parse($sub->expiration_date)->subDays($sub->remind_before_days);
-           $expirationDate = Carbon::parse($sub->expiration_date);
-        $remindDate = $expirationDate->copy()
-            ->subDays($sub->remind_before_days);
 
-            // Si c’est le jour du rappel
+            // 🔒 Sécurité dates
+            if (!$sub->expiration_date || !$sub->remind_before_days) {
+                continue;
+            }
+
+            $expirationDate = Carbon::parse($sub->expiration_date);
+            $remindDate = $expirationDate->copy()->subDays($sub->remind_before_days);
+
             if (
                 $today->greaterThanOrEqualTo($remindDate) &&
                 $today->lessThanOrEqualTo($expirationDate)
             ) {
-                $daysLeft = Carbon::parse($sub->expiration_date)->diffInDays($today);
+                $daysLeft = $today->diffInDays($expirationDate, false);
+                $clientName = $sub->client?->rai_soci ?? 'Client inconnu';
 
-                // 1️⃣ Envoi à tous les emails liés au client
-                if ($sub->client && $sub->client->emails) {
-                    foreach ($sub->client->emails as $email) {
-                        Mail::to($email->email)
-                            ->queue(new SubscriptionReminderMail($sub));
-                    }
+                // 1️⃣ Emails du client
+                foreach ($sub->client?->emails ?? [] as $email) {
+                    Mail::to($email->email)
+                        ->send(new SubscriptionReminderMail($sub));
                 }
 
-                // 2️⃣ Envoi à l’utilisateur lié au client
-                if ($sub->client && $sub->client->user && $sub->client->user->email) {
+                // 2️⃣ Utilisateur lié au client
+                if ($sub->client?->user?->email) {
                     Mail::to($sub->client->user->email)
-                        ->queue(new AdminReminderMail($sub, $daysLeft));
+                        ->send(new AdminReminderMail($sub, $daysLeft));
                 }
 
-                // 3️⃣ Envoi aux administrateurs
+                // 3️⃣ Admins
                 foreach ($adminEmails as $adminEmail) {
                     Mail::to($adminEmail)
-                        ->queue(new AdminReminderMail($sub, $daysLeft));
+                        ->send(new AdminReminderMail($sub, $daysLeft));
                 }
 
-                // Console log
-                $this->info("📧 Rappels envoyés pour l'abonnement ID {$sub->id} du client {$sub->client->rai_soci}");
+                $this->info(
+                    "📧 Rappel envoyé | Abonnement #{$sub->id} | Client: {$clientName} | J-{$daysLeft}"
+                );
             }
         }
 
         return Command::SUCCESS;
     }
 }
+

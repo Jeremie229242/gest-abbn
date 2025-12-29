@@ -3,7 +3,7 @@
 
 Bonjour,
 
-Votre abonnement **{{ $subscription->type }}** lié à **{{ $subscription->entity }}** a expirer depuis le **{{ $subscription->expiration_date->format('d/m/Y') }}**.
+Votre abonnement **{{ $subscription->type }}** lié à **{{ $subscription->name }}** a expirer depuis le **{{ $subscription->expiration_date->format('d/m/Y') }}**.
 
 Merci de penser à le renouveler.
 

@@ -1,10 +1,10 @@
 
 @component('mail::message')
-# Rappel d’abonnement de {{ $subscription->site->nom }}
+# Rappel d’abonnement de {{ $subscription->client->rai_soci }}
 
 Bonjour,
 
-L'abonnement de **{{ $subscription->site->nom }}** concernant  **{{ $subscription->type }}** lié à **{{ $subscription->entity }}** va expirer le **{{ $subscription->expiration_date->format('d/m/Y') }}**.
+L'abonnement de **{{ $subscription->client->rai_soci }}** concernant  **{{ $subscription->type }}** lié à **{{ $subscription->name }}** va expirer le **{{ $subscription->expiration_date->format('d/m/Y') }}**.
 
 Merci de penser à le renouveler.
 
